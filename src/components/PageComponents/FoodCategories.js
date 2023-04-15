@@ -1,12 +1,32 @@
 import React from "react";
 import styled from "styled-components";
 import COLORS from "../../Themes/colors";
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function FoodCategories(props) {
-    const { categories} = props;
+  const { categories} = props;
+
+    const navigate = useNavigate()
+
+    const handleNavigation = ()=>{
+      
+      navigate('/categories' , {
+        state:{
+          categorieTitle: categories.Title,
+          dishes: categories.dishes,
+          
+        }
+        
+      })
+     }
+
+    
+
   return (
     <StyledButton // aris patar divi razec restornis titoeul kategoriasd vantavsebt
+    onClick={handleNavigation}
     >
       <P>{categories.Title}</P>
       <Image src={categories.Image} />

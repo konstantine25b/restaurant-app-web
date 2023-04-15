@@ -3,11 +3,18 @@ import HomeScreen from "./components/HomeScreen";
 import { Provider } from "react-redux";
 import {store} from './store'
 import "./App.css"
+import EachCategoryPage from "./components/EachCategoryPage";
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route index = '/' element={<HomeScreen/>}/>
+    <Route path = '/'>
+       <Route index={true} element={<HomeScreen/>}/>
+       <Route path='/categories' element={<EachCategoryPage/>}/>
+    </Route>
+    
+
+    
   )
 )
 
