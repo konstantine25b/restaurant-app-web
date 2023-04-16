@@ -30,8 +30,9 @@ function EachCategoryPage() {
         </BackButton>
         <P>{categorieTitle }</P>
       </HeaderDiv>
+      <div style = {{paddingTop: 90}}></div>
       {dishes.map((dish )=>{
-           return <EachFoodCard dish = {dish}/>
+           return <EachFoodCard key = {dish.Title} dish = {dish}/>
       })}
 
       {/* <FlatList // amit chven vawyobt bevr titoeul foodze divs
@@ -48,16 +49,19 @@ const MainDiv = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  background-color: whitesmoke;
 `;
 const HeaderDiv = styled.div`
-  height: 90;
+  height: 90px;
   display: flex;
+  position: fixed;
+  top: 0;
   width: 100%;
   background-color: ${COLORS.mainColor};
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  
 `;
 const BackButton = styled.button`
   all: unset;
@@ -66,6 +70,7 @@ const BackButton = styled.button`
   background-color: lightgray;
   padding: 10px;
   border-radius: 50%;
+  margin-left: 10px;
 `;
 const P = styled.p`
   color: white;

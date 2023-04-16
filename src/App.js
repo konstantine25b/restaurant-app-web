@@ -4,13 +4,17 @@ import { Provider } from "react-redux";
 import {store} from './store'
 import "./App.css"
 import EachCategoryPage from "./components/EachCategoryPage";
+import EachFoodDetailedInfo from "./components/EachFoodDetailedInfo";
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path = '/'>
        <Route index={true} element={<HomeScreen/>}/>
+     
        <Route path='/categories' element={<EachCategoryPage/>}/>
+       <Route path='/categories/EachFoodInfo' element={<EachFoodDetailedInfo/>}/>
+      
     </Route>
     
 

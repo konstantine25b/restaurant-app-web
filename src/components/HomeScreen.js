@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { getRestaurant } from "../Processing/Database";
 import COLORS from "../Themes/colors";
 import { useDispatch } from "react-redux";
-import { selectRestaurant, setRestaurant } from "../features/RestaurantSlice";
+import { setRestaurant } from "../features/RestaurantSlice";
 import styled from "styled-components";
 
 import { MapPinIcon, StarIcon } from "@heroicons/react/24/solid";
