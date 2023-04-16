@@ -4,6 +4,9 @@ import COLORS from "../Themes/colors";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import styled from "styled-components";
 import EachFoodCard from "./PageComponents/EachFoodCard";
+import Basket from "./Basket";
+import { useSelector } from "react-redux";
+import { selectBasketItems } from "../features/basketSlice";
 
 function EachCategoryPage() {
   const { state } = useLocation();
@@ -11,8 +14,9 @@ function EachCategoryPage() {
   console.log(dishes,categorieTitle);
 
   const navigate = useNavigate();
+  const items = useSelector((state) => selectBasketItems(state));
 
-  return (
+  return (<>
     <MainDiv>
       <HeaderDiv // es arissadac weria restornis saxeli ukan gasvlis gilaki da search gilaki
       >
@@ -42,6 +46,9 @@ function EachCategoryPage() {
           keyExtractor={(item) => item.Title}
         /> */}
     </MainDiv>
+    {items.length > 0 ? <Basket theme={"dark"} /> : null}
+    </>
+
   );
 }
 

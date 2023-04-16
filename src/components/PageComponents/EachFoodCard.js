@@ -270,10 +270,12 @@ const UpperBottomMain = styled.div`
   justify-content: space-between;
   padding-left: 2%;
   padding-right: 2%;
+  margin: 0;
 `;
 const UpperBottomMainP = styled.p`
   font-size: 14px;
   font-weight: 500;
+  margin: 0;
 `;
 const UpperBottomMainDiv = styled.div`
   width: 60%;
@@ -285,16 +287,20 @@ const UpperBottomMainDivP1 = styled.p`
   font-size: 17px;
   font-weight: 600;
   padding-bottom: 2px;
+  margin: 0;
 `;
 const UpperBottomMainDivP2 = styled.p`
   font-size: 13px;
   color: gray;
   font-weight: 500;
   margin-left: 2%;
+  margin: 0;
 `;
 const BottomPriceP = styled.p`
   font-size: 14px;
   font-weight: 400;
+  margin: 0;
+  margin-right: 2%;
 `;
 const LowerBottomMain = styled.div`
   display: flex;

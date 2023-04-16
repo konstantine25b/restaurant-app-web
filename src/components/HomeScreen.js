@@ -1,12 +1,14 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { getRestaurant } from "../Processing/Database";
 import COLORS from "../Themes/colors";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setRestaurant } from "../features/RestaurantSlice";
 import styled from "styled-components";
 
 import { MapPinIcon, StarIcon } from "@heroicons/react/24/solid";
 import FoodCategories from "./PageComponents/FoodCategories";
+import Basket from "./Basket";
+import { selectBasketItems } from "../features/basketSlice";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
@@ -21,6 +23,7 @@ const ID = "KFC"
     };
     gettingRestaurantsInfo();
   }, []);
+  const items = useSelector((state) => selectBasketItems(state));
   useEffect(() => {
     dispatch(
       setRestaurant({
@@ -41,6 +44,7 @@ const ID = "KFC"
 
   return (
     <MainDiv>
+      {items.length > 0 ? <Basket theme={"light"} /> : null}
       <ImageDiv>
         <HeaderImage // es aris ukana fonze background image roa eg
           src={restaurantInfo?.MainImage}
@@ -104,7 +108,7 @@ const ID = "KFC"
 }
 
 const MainDiv = styled.div`
-  background-color: white;
+  background-color: whitesmoke;
   width: 100%;
 `;
 const ImageDiv = styled.div`
@@ -118,7 +122,7 @@ const HeaderImage = styled.img`
 `;
 
 const HeaderComponentsDiv = styled.div`
-  background-color: white;
+  background-color: whitesmoke;
   position: relative;
   width: 100%;
 `;
