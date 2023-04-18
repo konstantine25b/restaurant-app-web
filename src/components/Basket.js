@@ -8,12 +8,22 @@ import styled from "styled-components";
 export default function Basket(props) {
   const { theme } = props;
   const items = useSelector(selectBasketItems);
-  const navigate = useNavigate();
+  
   const basketTotal = useSelector(selectBasketTotal);
+
+  const navigate = useNavigate()
+
+    const handleNavigation = ()=>{
+      
+      navigate('/basket')
+     }
+
   return (
     // onClick ={()=>{navigation.navigate("BasketPage")}}
 
-    <>
+    
+
+    <MainDiv onClick={handleNavigation}>
       {theme == "dark" ? (
         <MainButton1>
           <div
@@ -70,9 +80,13 @@ export default function Basket(props) {
           )}
         </MainButton2>
       )}
-    </>
+    </MainDiv>
   );
 }
+
+const MainDiv = styled.div`
+
+`
 
 const MainButton1 = styled.div`
   position: fixed;

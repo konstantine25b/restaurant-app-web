@@ -10,45 +10,46 @@ import { selectBasketItems } from "../features/basketSlice";
 
 function EachCategoryPage() {
   const { state } = useLocation();
-  const { dishes,categorieTitle} = state;
-  console.log(dishes,categorieTitle);
+  const { dishes, categorieTitle } = state;
+  console.log(dishes, categorieTitle);
 
   const navigate = useNavigate();
   const items = useSelector((state) => selectBasketItems(state));
 
-  return (<>
-    <MainDiv>
-      <HeaderDiv // es arissadac weria restornis saxeli ukan gasvlis gilaki da search gilaki
-      >
-        <BackButton
-          onClick={() => {
-            navigate(-1);
-          }}
+  return (
+    <>
+      <MainDiv>
+        <HeaderDiv // es arissadac weria restornis saxeli ukan gasvlis gilaki da search gilaki
         >
-          <ArrowLeftIcon
-            color={COLORS.mainColor}
-            style={{
-              width: 25,
+          <BackButton
+            onClick={() => {
+              navigate(-1);
             }}
-          />
-        </BackButton>
-        <P>{categorieTitle }</P>
-      </HeaderDiv>
-      <div style = {{paddingTop: 90}}></div>
-      {dishes.map((dish )=>{
-           return <EachFoodCard key = {dish.Title} dish = {dish}/>
-      })}
+          >
+            <ArrowLeftIcon
+              color={COLORS.mainColor}
+              style={{
+                width: 25,
+              }}
+            />
+          </BackButton>
+          <P>{categorieTitle}</P>
+        </HeaderDiv>
+        <EachFoodMainDiv>
+          {dishes.map((dish) => {
+            return <EachFoodCard key={dish.Title} dish={dish} />;
+          })}
+        </EachFoodMainDiv>
 
-      {/* <FlatList // amit chven vawyobt bevr titoeul foodze divs
+        {/* <FlatList // amit chven vawyobt bevr titoeul foodze divs
           data={dishes}
           contentContainerStyle={{ paddingBottom: 350 }}
           renderItem={({ item }) => <EachFoodCard dishes={item} />}
           keyExtractor={(item) => item.Title}
         /> */}
-    </MainDiv>
-    {items.length > 0 ? <Basket theme={"dark"} /> : null}
+      </MainDiv>
+      {items.length > 0 ? <Basket theme={"dark"} /> : null}
     </>
-
   );
 }
 
@@ -68,7 +69,6 @@ const HeaderDiv = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  
 `;
 const BackButton = styled.button`
   all: unset;
@@ -84,7 +84,10 @@ const P = styled.p`
   font-size: 25px;
   font-weight: 400;
   padding-right: 30px;
-
+`;
+const EachFoodMainDiv = styled.div`
+  padding-top: 90px;
+  padding-bottom: 210px;
 `;
 
 export default EachCategoryPage;

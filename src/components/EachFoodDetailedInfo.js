@@ -171,7 +171,7 @@ export default function EachFoodDetailedInfo() {
                     <EachIngInside
                       onClick={() => {
                         
-                        console.log(isCheckedIngr);
+                        
                         
                         if (isCheckedIngr[index] == true) {
                            
@@ -193,7 +193,7 @@ export default function EachFoodDetailedInfo() {
                         let newisCheckedIngr = isCheckedIngr;
                         newisCheckedIngr[index] = !newisCheckedIngr[index];
                         setIsCheckedIngr(newisCheckedIngr);
-                        console.log(unCheckedIngredients)
+                       
 
                         // console.log(unCheckedIngredients)
                       }}

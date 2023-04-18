@@ -151,6 +151,8 @@ const HeaderInfoDiv2P = styled.p`
   margin-bottom: 10px;
 `;
 const MenuDiv = styled.div`
+display: flex;
+
   justify-content: center;
   width: 100%;
   margin: 0;
