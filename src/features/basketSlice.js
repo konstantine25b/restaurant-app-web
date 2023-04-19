@@ -13,7 +13,9 @@ export const basketSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.items = [...state.items, action.payload]; // am metodit vtovebt rac basketshi da vamatebt kide action.payloadit axal items
+
+      let newItems = [...state.items, action.payload].sort((a, b) => a.Title.localeCompare(b.Title));
+      state.items = newItems; // am metodit vtovebt rac basketshi da vamatebt kide action.payloadit axal items
     },
 
     removeFromBasket: (state, action) => {
@@ -21,7 +23,7 @@ export const basketSlice = createSlice({
       const index = state.items.findIndex(
         (item) => item.Id === action.payload.Id 
       ); // amit vpoulob tu item romlis amogebac gvinda basketshia
-      let newBasket = [...state.items];
+      let newBasket = [...state.items].sort((a, b) => a.Title.localeCompare(b.Title));;
 
       if (index >= 0) {
         newBasket.splice(index, 1);
@@ -55,7 +57,7 @@ export const basketSlice = createSlice({
     const index = state.items.findIndex(
       (item) => item.Id === action.payload.Id && areEqual(item.unCheckedIngredients,action.payload.unCheckedIngredients)
     ); // amit vpoulob tu item romlis amogebac gvinda basketshia
-    let newBasket = [...state.items];
+    let newBasket = [...state.items].sort((a, b) => a.Title.localeCompare(b.Title));;
 
     if (index >= 0) {
       newBasket.splice(index, 1);

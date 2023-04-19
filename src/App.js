@@ -6,6 +6,7 @@ import "./App.css"
 import EachCategoryPage from "./components/EachCategoryPage";
 import EachFoodDetailedInfo from "./components/EachFoodDetailedInfo";
 import BasketPage from "./components/BasketPage";
+import ConfirmPage from "./components/ConfirmPage";
 
 
 const router = createBrowserRouter(
@@ -16,6 +17,7 @@ const router = createBrowserRouter(
        <Route path='/categories' element={<EachCategoryPage/>}/>
        <Route path='/categories/EachFoodInfo' element={<EachFoodDetailedInfo/>}/>
        <Route path='/basket' element={<BasketPage/>}/>
+       <Route path='/confirm' element={<ConfirmPage/>}/>
       
     </Route>
     

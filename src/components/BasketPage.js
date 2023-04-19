@@ -22,9 +22,11 @@ export default function BasketPage() {
   const BasketTotal = useSelector(selectBasketTotal);
   const [newGroupedItemsInBasket, setNewGroupedItemsInBasket] = useState([]);
   const dispatch = useDispatch();
- 
-
   const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    navigate("/confirm");
+  };
 
   const removeItemFromBasket = (Id, unCheckedIngredients) => {
     dispatch(removeFromBasketWithIngredients({ Id, unCheckedIngredients }));
@@ -94,7 +96,7 @@ export default function BasketPage() {
           <ContinueInside
           // onClick = {()=>navigation.navigate("ConfirmPage")}
           >
-            <ContinueP>Go to Payment</ContinueP>
+            <ContinueP onClick = {handleNavigation}>Go to Payment</ContinueP>
           </ContinueInside>
         </ContinueDivMain>
       </ContinueDiv>
@@ -168,7 +170,7 @@ export default function BasketPage() {
                         addToBasket({
                           Id: items[0]?.Title,
                           ApproxTime: items[0]?.ApproxTime,
-                          FoodImage: items[items.length]?.Image,
+                          FoodImage: items[0]?.Image,
                           Title: items[0]?.Title,
                           Description: items[0]?.Description,
                           Price: items[0]?.Price,
