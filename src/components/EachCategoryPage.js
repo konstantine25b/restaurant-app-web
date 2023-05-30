@@ -37,7 +37,7 @@ function EachCategoryPage() {
         </HeaderDiv>
         <EachFoodMainDiv>
           {dishes.map((dish) => {
-            return <EachFoodCard key={dish.Title} dish={dish} />;
+            return dish?.Availability ? <EachFoodCard key={dish.Title} dish={dish} />: null;
           })}
         </EachFoodMainDiv>
 

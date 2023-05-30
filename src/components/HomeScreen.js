@@ -14,7 +14,7 @@ export default function HomeScreen() {
   const dispatch = useDispatch();
 
   const [restaurantInfo, setRestaurantInfo] = useState([]); // amashi iqneba romel restoransac gamovidzaxebt is
-const ID = "KFC"
+const ID = "McDonald's"
   useLayoutEffect(() => {
     const gettingRestaurantsInfo = async () => {
       // am metodit mogvaqvs yvela restorani  da vsetavt mas reduxshi
