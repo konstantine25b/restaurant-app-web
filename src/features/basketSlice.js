@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useState } from "react";
+
+
+const savedData = localStorage.getItem("basket");
 
 const initialState = {
-  items: [],
+  items: savedData? JSON.parse(savedData) : [],
 };
 
 export const basketSlice = createSlice({
@@ -16,6 +20,8 @@ export const basketSlice = createSlice({
 
       let newItems = [...state.items, action.payload].sort((a, b) => a.Title.localeCompare(b.Title));
       state.items = newItems; // am metodit vtovebt rac basketshi da vamatebt kide action.payloadit axal items
+      localStorage.setItem('basket', JSON.stringify(newItems))
+      
     },
 
     removeFromBasket: (state, action) => {

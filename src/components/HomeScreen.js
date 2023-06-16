@@ -12,6 +12,7 @@ import { selectBasketItems } from "../features/basketSlice";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
+ 
 
   const [restaurantInfo, setRestaurantInfo] = useState([]); // amashi iqneba romel restoransac gamovidzaxebt is
 const ID = "McDonald's"
