@@ -123,6 +123,7 @@ export default function BasketPage() {
 
         <LowerSide>
           {newGroupedItemsInBasket.map((items, index) => {
+            console.log(items)
             return (
               <EachItem key={index}>
                 <EachItemInfo>
@@ -152,6 +153,7 @@ export default function BasketPage() {
                         items[0].Id,
                         items[0].unCheckedIngredients
                       );
+                      
                     }}
                   >
                     <RemoveP>Remove</RemoveP>
@@ -166,11 +168,12 @@ export default function BasketPage() {
                   </RemoveDiv>
                   <AddDiv
                     onClick={() => {
+                      console.log(items[0]?.FoodImage)
                       dispatch(
                         addToBasket({
                           Id: items[0]?.Title,
                           ApproxTime: items[0]?.ApproxTime,
-                          FoodImage: items[0]?.Image,
+                          FoodImage: items[0]?.FoodImage,
                           Title: items[0]?.Title,
                           Description: items[0]?.Description,
                           Price: items[0]?.Price,

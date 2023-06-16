@@ -11,7 +11,7 @@ import { selectBasketItems } from "../features/basketSlice";
 function EachCategoryPage() {
   const { state } = useLocation();
   const { dishes, categorieTitle } = state;
-  console.log(dishes, categorieTitle);
+  
 
   const navigate = useNavigate();
   const items = useSelector((state) => selectBasketItems(state));
