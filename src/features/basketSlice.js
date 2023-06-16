@@ -40,6 +40,7 @@ export const basketSlice = createSlice({
       }
 
       state.items = newBasket;
+      localStorage.setItem('basket', JSON.stringify(newBasket))
     },
    
   
@@ -74,6 +75,7 @@ export const basketSlice = createSlice({
     }
 
     state.items = newBasket;
+    localStorage.setItem('basket', JSON.stringify(newBasket))
   },
 },
 });
