@@ -115,9 +115,10 @@ export const selectBasketTotal = (state) => {
   // );
   let total = 0;
   for(let i = 0 ; i<state.basket.items.length; i++){
-   total+=state.basket.items[i].Price;
+   total+=Number(state.basket.items[i].Price);
    
   }
+  console.log(total)
   let basketTotal= parseFloat(total.toFixed(2))
   return basketTotal
  
