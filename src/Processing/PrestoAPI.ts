@@ -81,6 +81,10 @@ export class PrestoAPI {
         this.password = null;
     }
 
+    protected isLoggedIn(): boolean{
+        return localStorage.getItem('user_email')!==null && localStorage.getItem('user_password')!==null;
+    }
+
     protected async loginIfNeeded(forced?: boolean): Promise<void> {
         if ((!this.token || forced)) {
             const storedEmail = localStorage.getItem('user_email');
