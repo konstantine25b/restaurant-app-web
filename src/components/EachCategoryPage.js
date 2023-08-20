@@ -11,6 +11,7 @@ import { selectBasketItems } from "../features/basketSlice";
 function EachCategoryPage() {
   const { state } = useLocation();
   const { dishes, categorieTitle } = state;
+  // console.log(dishes , categorieTitle)
   
 
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ function EachCategoryPage() {
         </HeaderDiv>
         <EachFoodMainDiv>
           {dishes.map((dish) => {
-            return dish?.Availability ? <EachFoodCard key={dish.Title} dish={dish} />: null;
+            return !dish?.availability ? <EachFoodCard key={dish.title} dish={dish} />: null;// aq ! nishani unda movashoro imitoro avaibility dasamatebelia
           })}
         </EachFoodMainDiv>
 

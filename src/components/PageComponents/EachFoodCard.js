@@ -11,13 +11,14 @@ import COLORS from "../../Themes/colors";
 import { useNavigate } from "react-router-dom";
 
 export default function EachFoodCard({ dish }) {
-  const Id = dish.Title;
-  const ApproxTime = dish.ApproxTime;
-  const FoodImage = dish.Image;
-  const Title = dish.Title;
-  const Description = dish.Description;
-  const Price = dish.Price;
-  const Ingredients = dish.Ingredients;
+  // console.log(dish)
+  const Id = dish.title;
+  const ApproxTime = dish.approxtime;
+  const FoodImage = dish.image;
+  const Title = dish.title;
+  const Description = dish.description;
+  const Price = dish.price;
+  const Ingredients = dish.ingredients;
 
   function areEqual(array1, array2) {
     if (array1.length === array2.length) {
@@ -104,7 +105,7 @@ export default function EachFoodCard({ dish }) {
     <>
       <MainDiv onClick={() => handleNavigation()}>
         <LeftDiv>
-          <TitleP>{dish.Title}</TitleP>
+          <TitleP>{dish.title}</TitleP>
           <DeskP>{Description}</DeskP>
         </LeftDiv>
         <RightDiv // es marjvena mxares rac aris yvelafers

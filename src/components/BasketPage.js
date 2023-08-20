@@ -123,7 +123,7 @@ export default function BasketPage() {
 
         <LowerSide>
           {newGroupedItemsInBasket.map((items, index) => {
-            console.log(items)
+            // console.log(items)
             return (
               <EachItem key={index}>
                 <EachItemInfo>

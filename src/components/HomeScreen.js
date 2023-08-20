@@ -9,52 +9,65 @@ import { MapPinIcon, StarIcon } from "@heroicons/react/24/solid";
 import FoodCategories from "./PageComponents/FoodCategories";
 import Basket from "./Basket";
 import { selectBasketItems } from "../features/basketSlice";
+import { API } from "../Processing/KPrestoAPI";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
  
 
-  const [restaurantInfo, setRestaurantInfo] = useState([]); // amashi iqneba romel restoransac gamovidzaxebt is
+  // const [restInfo, setrestInfo] = useState([]); // amashi iqneba romel restoransac gamovidzaxebt is
+
+  const[restInfo, setRestInfo] = useState()
 const ID = "McDonald's"
+const NAME = "KFC"
   useLayoutEffect(() => {
     const gettingRestaurantsInfo = async () => {
       // am metodit mogvaqvs yvela restorani  da vsetavt mas reduxshi
-
-      setRestaurantInfo(await getRestaurant(ID));
+      // setRestInfo(await getRestaurant(ID));
+      handleGetRestaurantByTitle(NAME)
     };
     gettingRestaurantsInfo();
   }, []);
+
+  useEffect(()=>{
+     console.log(restInfo)
+  },[restInfo])
+
+  const handleGetRestaurantByTitle = async (restaurantTitle) => {
+    const restaurantByTitle = await API.getRestaurantByTitle(restaurantTitle);
+    setRestInfo(JSON.parse(JSON.stringify(restaurantByTitle)));
+  };
   const items = useSelector((state) => selectBasketItems(state));
   useEffect(() => {
     dispatch(
       setRestaurant({
         // am funqciit vagebinebt romeli restornidan vukvetavt
-        Id: restaurantInfo?.Title,
-        Title: restaurantInfo?.Title,
-        MainImage: restaurantInfo?.MainImage,
-        Address: restaurantInfo?.Address,
-        Genre: restaurantInfo?.Genre,
-        ShortDescription: restaurantInfo?.ShortDescription,
-        Rating: restaurantInfo?.Rating,
-        FoodCategories: restaurantInfo?.FoodCategories,
+        Id: restInfo?.title,
+        Title: restInfo?.title,
+        MainImage: restInfo?.image,
+        Address: restInfo?.address,
+        Genre: restInfo?.genre,
+        ShortDescription: restInfo?.shortdescription,
+        Rating: restInfo?.rating,
+        FoodCategories: restInfo?.categories,
       })
     );
-  }, [dispatch, restaurantInfo]);
+  }, [dispatch, restInfo]);
 
-  console.log(restaurantInfo);
+  // console.log(restInfo);
 
   return (
     <MainDiv>
       {items.length > 0 ? <Basket theme={"light"} /> : null}
       <ImageDiv>
         <HeaderImage // es aris ukana fonze background image roa eg
-          src={restaurantInfo?.MainImage}
+          src={restInfo?.images[0]}
         />
       </ImageDiv>
       <HeaderComponentsDiv // aq aris agwera reitingis da adgilmdebareobis
       >
         <HeaderComponentsDivInside>
-          <TitleP>{restaurantInfo?.Title}</TitleP>
+          <TitleP>{restInfo?.title}</TitleP>
           <HeaderInfoDiv1>
             <StarIcon
               color="orange"
@@ -64,7 +77,7 @@ const ID = "McDonald's"
               }}
             />
             <HeaderInfoDiv1P>
-              {restaurantInfo?.Rating} . {restaurantInfo?.Genre}
+              {restInfo?.rating} . {restInfo?.genre}
             </HeaderInfoDiv1P>
           </HeaderInfoDiv1>
           <HeaderInfoDiv1>
@@ -75,10 +88,10 @@ const ID = "McDonald's"
                 opacity: 0.8,
               }}
             />
-            <HeaderInfoDiv1P>{restaurantInfo?.Address}</HeaderInfoDiv1P>
+            <HeaderInfoDiv1P>{restInfo?.address}</HeaderInfoDiv1P>
           </HeaderInfoDiv1>
           <HeaderInfoDiv2P>
-            {restaurantInfo?.ShortDescription}
+            {restInfo?.shortdescription}
           </HeaderInfoDiv2P>
         </HeaderComponentsDivInside>
       </HeaderComponentsDiv>
@@ -96,11 +109,11 @@ const ID = "McDonald's"
             paddingBottom: 130,
           }}
         >
-          {restaurantInfo.FoodCategories?.map(
+          {restInfo?.categories?.map(
             (
               item // am metodit gadavurbent yvea categories elements da vawyobt matgan FoodCategories componentebs (ra kategoriebic aqvs restorans)
             ) => (
-              <FoodCategories key={item.Title} categories={item} />
+              <FoodCategories key={item.title} categories={item} />
             )
           )}
         </div>

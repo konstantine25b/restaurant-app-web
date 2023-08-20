@@ -14,7 +14,7 @@ export default function FoodCategories(props) {
       
       navigate('/categories' , {
         state:{
-          categorieTitle: categories.Title,
+          categorieTitle: categories.title,
           dishes: categories.dishes,
           
         }
@@ -28,8 +28,8 @@ export default function FoodCategories(props) {
     <StyledButton // aris patar divi razec restornis titoeul kategoriasd vantavsebt
     onClick={handleNavigation}
     >
-      <P>{categories.Title}</P>
-      <Image src={categories.Image} />
+      <P>{categories.title}</P>
+      <Image src={categories.image} />
     </StyledButton>
   );
 }

@@ -40,13 +40,13 @@ export default function EachFoodDetailedInfo() {
 
   const navigate = useNavigate();
 
-  const Id = dishes.Title;
-  const ApproxTime = dishes.ApproxTime;
-  const Title = dishes.Title;
-  const FoodImage = dishes.Image;
-  const Description = dishes.Description;
-  const Price = dishes.Price;
-  const Ingredients = dishes.Ingredients;
+  const Id = dishes.title;
+  const ApproxTime = dishes.approxtime;
+  const Title = dishes.title;
+  const FoodImage = dishes.image;
+  const Description = dishes.description;
+  const Price = dishes.price;
+  const Ingredients = dishes.ingredients;
   let ingerdientsArr = [];
 
   for (let i = 0; i < Ingredients.length; i++) {
