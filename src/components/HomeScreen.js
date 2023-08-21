@@ -9,7 +9,7 @@ import { MapPinIcon, StarIcon } from "@heroicons/react/24/solid";
 import FoodCategories from "./PageComponents/FoodCategories";
 import Basket from "./Basket";
 import { selectBasketItems } from "../features/basketSlice";
-import { API } from "../Processing/KPrestoAPI";
+import { API } from "../Processing/PrestoAPI";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
