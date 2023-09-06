@@ -261,7 +261,7 @@ export default function EachFoodDetailedInfo() {
       >
         <AddingP>
           Add {itemCount.current} item to the basket for{" "}
-          {Number(dishes.Price) * Number(itemCount.current)} ₾
+          {Number(dishes.price) * Number(itemCount.current)} ₾
         </AddingP>
       </AddingDiv>
     </MainDiv>
