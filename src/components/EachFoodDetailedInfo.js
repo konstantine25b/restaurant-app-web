@@ -40,7 +40,7 @@ export default function EachFoodDetailedInfo() {
 
   const navigate = useNavigate();
 
-  const Id = dishes.title;
+  const Id = dishes.id;
   const ApproxTime = dishes.approxtime;
   const Title = dishes.title;
   const FoodImage = dishes.image;

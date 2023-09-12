@@ -17,7 +17,8 @@ import {
 import { useNavigate } from "react-router-dom";
 
 export default function BasketPage() {
-  const restaurant = useSelector(selectRestaurant);
+  const restaurant = JSON.parse(localStorage.getItem("restInfo"));
+
   const items = useSelector(selectBasketItems);
   const BasketTotal = useSelector(selectBasketTotal);
   const [newGroupedItemsInBasket, setNewGroupedItemsInBasket] = useState([]);
@@ -47,6 +48,7 @@ export default function BasketPage() {
   }
 
   useEffect(() => {
+    console.log(restaurant)
     let differnetItemsArr = [];
     for (let i = 0; i < items.length; i++) {
       if (i == 0) {
@@ -104,7 +106,7 @@ export default function BasketPage() {
         <UpperSide>
           <UpperSideTop>
             <UpperSideTopP1>Basket items</UpperSideTopP1>
-            <UpperSideTopP2>{restaurant.Title}</UpperSideTopP2>
+            <UpperSideTopP2>{restaurant.title}</UpperSideTopP2>
           </UpperSideTop>
           <GoBackDiv
             onClick={() => {

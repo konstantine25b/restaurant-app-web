@@ -7,6 +7,8 @@ import EachCategoryPage from "./components/EachCategoryPage";
 import EachFoodDetailedInfo from "./components/EachFoodDetailedInfo";
 import BasketPage from "./components/BasketPage";
 import ConfirmPage from "./components/ConfirmPage";
+import SuccessPage from "./components/SuccessPage"
+import FailPage from "./components/FailPage"
 
 
 
@@ -20,6 +22,8 @@ const router = createBrowserRouter(
        <Route path='/categories/EachFoodInfo' element={<EachFoodDetailedInfo/>}/>
        <Route path='/basket' element={<BasketPage/>}/>
        <Route path='/confirm' element={<ConfirmPage/>}/>
+       <Route path='/success' element={<SuccessPage/>}/>
+       <Route path='/fail' element={<FailPage/>}/>
       
     </Route>
     

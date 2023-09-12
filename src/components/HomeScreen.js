@@ -19,19 +19,22 @@ export default function HomeScreen() {
 
   const[restInfo, setRestInfo] = useState()
 const ID = "McDonald's"
-const NAME = "Khinkali Restaurant"
+const NAME = "KFC"
   useLayoutEffect(() => {
     const gettingRestaurantsInfo = async () => {
       // am metodit mogvaqvs yvela restorani  da vsetavt mas reduxshi
       // setRestInfo(await getRestaurant(ID));
-      handleGetRestaurantByTitle(NAME)
+      await handleGetRestaurantByTitle(NAME)
     };
     gettingRestaurantsInfo();
   }, []);
 
   useEffect(()=>{
      console.log(restInfo)
+     localStorage.setItem("restInfo",JSON.stringify(restInfo));
+    
   },[restInfo])
+
 
   const handleGetRestaurantByTitle = async (restaurantTitle) => {
     const restaurantByTitle = await API.getRestaurantByTitle(restaurantTitle);
@@ -42,7 +45,7 @@ const NAME = "Khinkali Restaurant"
     dispatch(
       setRestaurant({
         // am funqciit vagebinebt romeli restornidan vukvetavt
-        Id: restInfo?.title,
+        Id: restInfo?.id,
         Title: restInfo?.title,
         MainImage: restInfo?.image,
         Address: restInfo?.address,

@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function EachFoodCard({ dish }) {
   // console.log(dish)
-  const Id = dish.title;
+  const Id = dish.id;
   const ApproxTime = dish.approxtime;
   const FoodImage = dish.image;
   const Title = dish.title;
