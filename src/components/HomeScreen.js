@@ -19,7 +19,7 @@ export default function HomeScreen() {
 
   const[restInfo, setRestInfo] = useState()
 const ID = "McDonald's"
-const NAME = "KFC"
+const NAME = "Khinkali Restaurant"
   useLayoutEffect(() => {
     const gettingRestaurantsInfo = async () => {
       // am metodit mogvaqvs yvela restorani  da vsetavt mas reduxshi
