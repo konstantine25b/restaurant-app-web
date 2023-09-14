@@ -28,11 +28,9 @@ export default function BasketPage() {
   const navigate = useNavigate();
   //es dros sazgvravs plius 10 wams umatebs orderis micemis funqciistvis
 
-  
-
   const handleCreateOrder = async () => {
     const newTime = new Date();
-    newTime.setSeconds(newTime.getSeconds() +10);
+    newTime.setSeconds(newTime.getSeconds() + 10);
 
     const orderData = {
       restaurantId: restaurant.id, // Replace with the desired restaurant ID
@@ -45,10 +43,7 @@ export default function BasketPage() {
         ? "Order created successfully!"
         : "Order creation failed."
     );
-    createOrderSuccess?  navigate("/success") :  navigate("/fail");
-
-
-
+    createOrderSuccess ? navigate("/success") : navigate("/fail");
   };
 
   function areEqual(array1, array2) {
@@ -141,7 +136,11 @@ export default function BasketPage() {
       console.log(
         `Table Number: ${tableNumber}, Payment Method: ${paymentMethod}`
       );
-      handleCreateOrder();
+      handleCreateOrder()
+      setInterval(() => {
+        window.location.reload(); // Reloads the page every second
+      }, 1500);
+
     }
   };
 
@@ -164,7 +163,15 @@ export default function BasketPage() {
           <ContinueInside
           // onClick = {()=>navigation.navigate("ConfirmPage")}
           >
-            <ContinueP onClick={handleSubmit}>Confirm Order</ContinueP>
+            <ContinueP
+              onClick={() => {
+                
+                handleSubmit();
+                
+              }}
+            >
+              Confirm Order
+            </ContinueP>
           </ContinueInside>
         </ContinueDivMain>
       </ContinueDiv>

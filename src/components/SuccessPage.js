@@ -34,17 +34,42 @@ const SeeYourOrderButton = styled.button`
 `;
 
 const SuccessOrderPage = () => {
-  
   const savedData = localStorage.getItem("basket");
+  const prevOrder = localStorage.getItem("orderedItems");
+  
+  
 
   useEffect(() => {
-    localStorage.setItem("orderedItems", savedData)
-    localStorage.setItem("basket", '')
+    if (savedData) {
+      localStorage.removeItem("basket");
+      let savedData1 = JSON.parse(savedData)
+      console.log(savedData1)
+      
+      if (!prevOrder) {
+        localStorage.setItem("orderedItems", JSON.stringify([savedData1]));
+        console.log(prevOrder)
+        
+      } else {
+        let prevOrder1 = JSON.parse(prevOrder)
+        prevOrder1.push(savedData1)
+        
+        // let orderInfo0 = JSON.parse(prevOrder)
+        // let sData = JSON.parse(savedData)
+        // orderInfo0.push(sData)
+        console.log(prevOrder1)
+        localStorage.setItem("orderedItems", JSON.stringify(prevOrder1))
+        // // const orderInfo1 = orderInfo0[0];
+        // // let arr = [orderInfo1 , savedData];
+        // console.log(orderInfo0)
+        // localStorage.setItem("orderedItems", orderInfo0);
+      }
+      
+    }
+    // localStorage.removeItem("orderedItems")
     
-    
+    // console.log(savedData)
+    // console.log(prevOrder)
   }, [savedData]);
-
-  
 
   const navigate = useNavigate();
   return (
@@ -55,11 +80,9 @@ const SuccessOrderPage = () => {
       {/* Add the "See Your Order" button */}
       <SeeYourOrderButton
         onClick={() => {
-          setInterval(() => {
-            window.location.reload(); // Reloads the page every second
-          }, 500);
+          
           // Navigate to the page where the user can see their order
-          navigate("/OrderPage")
+          navigate("/OrderPage");
         }}
       >
         See Your Order

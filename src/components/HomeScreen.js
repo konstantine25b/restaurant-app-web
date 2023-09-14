@@ -10,31 +10,29 @@ import FoodCategories from "./PageComponents/FoodCategories";
 import Basket from "./Basket";
 import { selectBasketItems } from "../features/basketSlice";
 import { API } from "../Processing/PrestoAPI";
+import OrderNotification from "./PageComponents/OrderedItems";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
- 
 
   // const [restInfo, setrestInfo] = useState([]); // amashi iqneba romel restoransac gamovidzaxebt is
 
-  const[restInfo, setRestInfo] = useState()
-const ID = "McDonald's"
-const NAME = "KFC"
+  const [restInfo, setRestInfo] = useState();
+  const ID = "McDonald's";
+  const NAME = "KFC";
   useLayoutEffect(() => {
     const gettingRestaurantsInfo = async () => {
       // am metodit mogvaqvs yvela restorani  da vsetavt mas reduxshi
       // setRestInfo(await getRestaurant(ID));
-      await handleGetRestaurantByTitle(NAME)
+      await handleGetRestaurantByTitle(NAME);
     };
     gettingRestaurantsInfo();
   }, []);
 
-  useEffect(()=>{
-     console.log(restInfo)
-     localStorage.setItem("restInfo",JSON.stringify(restInfo));
-    
-  },[restInfo])
-
+  useEffect(() => {
+    console.log(restInfo);
+    localStorage.setItem("restInfo", JSON.stringify(restInfo));
+  }, [restInfo]);
 
   const handleGetRestaurantByTitle = async (restaurantTitle) => {
     const restaurantByTitle = await API.getRestaurantByTitle(restaurantTitle);
@@ -57,10 +55,19 @@ const NAME = "KFC"
     );
   }, [dispatch, restInfo]);
 
-  // console.log(restInfo);
+  const prevOrder = localStorage.getItem("orderedItems"); // es axalia rom vnaxot orderebi aris tu ara
+  let prevOrder1;
+
+  if(prevOrder){
+    prevOrder1= JSON.parse(prevOrder)
+  }
+ 
 
   return (
     <MainDiv>
+      {prevOrder ? (
+        <OrderNotification orderCount={prevOrder1.length}></OrderNotification>
+      ) : null}
       {items.length > 0 ? <Basket theme={"light"} /> : null}
       <ImageDiv>
         <HeaderImage // es aris ukana fonze background image roa eg
@@ -93,33 +100,27 @@ const NAME = "KFC"
             />
             <HeaderInfoDiv1P>{restInfo?.address}</HeaderInfoDiv1P>
           </HeaderInfoDiv1>
-          <HeaderInfoDiv2P>
-            {restInfo?.shortdescription}
-          </HeaderInfoDiv2P>
+          <HeaderInfoDiv2P>{restInfo?.shortdescription}</HeaderInfoDiv2P>
         </HeaderComponentsDivInside>
       </HeaderComponentsDiv>
       <MenuDiv // es aris menu ro weria eg
       >
-        <MenuP
-          
-        >
-          Menu
-        </MenuP>
+        <MenuP>Menu</MenuP>
       </MenuDiv>
 
       <div
-          style={{
-            paddingBottom: 130,
-          }}
-        >
-          {restInfo?.categories?.map(
-            (
-              item // am metodit gadavurbent yvea categories elements da vawyobt matgan FoodCategories componentebs (ra kategoriebic aqvs restorans)
-            ) => (
-              <FoodCategories key={item.title} categories={item} />
-            )
-          )}
-        </div>
+        style={{
+          paddingBottom: 130,
+        }}
+      >
+        {restInfo?.categories?.map(
+          (
+            item // am metodit gadavurbent yvea categories elements da vawyobt matgan FoodCategories componentebs (ra kategoriebic aqvs restorans)
+          ) => (
+            <FoodCategories key={item.title} categories={item} />
+          )
+        )}
+      </div>
     </MainDiv>
   );
 }
@@ -130,7 +131,6 @@ const MainDiv = styled.div`
 `;
 const ImageDiv = styled.div`
   position: relative;
-  
 `;
 const HeaderImage = styled.img`
   width: 100%;
@@ -168,18 +168,18 @@ const HeaderInfoDiv2P = styled.p`
   margin-bottom: 10px;
 `;
 const MenuDiv = styled.div`
-display: flex;
+  display: flex;
 
   justify-content: center;
   width: 100%;
   margin: 0;
-  border-bottom : 1px solid ${COLORS.mainColor};
-  border-top : 1px solid ${COLORS.mainColor};
+  border-bottom: 1px solid ${COLORS.mainColor};
+  border-top: 1px solid ${COLORS.mainColor};
 `;
 const MenuP = styled.p`
-text-align: center;
-font-weight: bold;
-font-size: 35px;
-margin: 8px;
-color: ${COLORS.mainColor};
-`
+  text-align: center;
+  font-weight: bold;
+  font-size: 35px;
+  margin: 8px;
+  color: ${COLORS.mainColor};
+`;
