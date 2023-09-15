@@ -33,15 +33,16 @@ export interface OrderItem {
     dishId: number;
     notes: string;
 }
-
+//Used for getting an order
 export interface OrderInfo {
     id: number;
     totalPrice: number;
     userID: number;
     restaurantId: number;
     orderState: number;
+    orderItems: OrderItem[];
 }
-
+//Used for creating an order
 export interface OrderData {
     restaurantId: number;
     orderRequestedDate: Date;
@@ -99,12 +100,12 @@ export class PrestoAPI {
         this.password = null;
     }
 
-    /// Returns true if the user is logged in, false otherwise
+    // Returns true if the user is logged in, false otherwise
     protected isLoggedIn(): boolean{
         return PrestoStorage.getItem('user_email')!==null && PrestoStorage.getItem('user_password')!==null;
     }
 
-    /// Logs in the user if they are not logged in already
+    // Logs in the user if they are not logged in already
     protected async loginIfNeeded(forced?: boolean): Promise<void> {
         if ((!this.token || forced)) {
             const storedEmail = await PrestoStorage.getItem('user_email');
@@ -125,9 +126,9 @@ export class PrestoAPI {
         }
     }
 
-    /// Registers a new user
-    /// Arguments:
-    /// username - string;
+    // Registers a new user
+    // Arguments:
+    // username - string;
     // 	email - string;
     // 	password - string;
     async register(data: RegistrationData): Promise<boolean> {
@@ -146,10 +147,10 @@ export class PrestoAPI {
         }
     }
 
-    /// Logs in the user
-    /// Arguments:
-    /// email - string;
-    /// password - string;
+    // Logs in the user
+    // Arguments:
+    // email - string;
+    // password - string;
     async login(email: string, password: string): Promise<boolean> {
         const loginData: LoginData = { email, password };
         try {
@@ -170,14 +171,14 @@ export class PrestoAPI {
         }
     }
 
-    /// Returns the user's data
-    /// Returns:
-    /// User | null;
-    /// Which contains:
-    /// id - number;
-    /// username - string;
-    /// email - string;
-    /// phone - string;
+    // Returns the user's data
+    // Returns:
+    // User | null;
+    // Which contains:
+    // id - number;
+    // username - string;
+    // email - string;
+    // phone - string;
     async getUser(): Promise<User | null> {
         await this.loginIfNeeded();
         try {
@@ -191,12 +192,12 @@ export class PrestoAPI {
     }
 
 
-    /// Edits the user's email
-    /// Arguments:
-    /// data - EditEmailData;
-    /// Which contains:
-    /// email - string;
-    /// password - string;
+    // Edits the user's email
+    // Arguments:
+    // data - EditEmailData;
+    // Which contains:
+    // email - string;
+    // password - string;
     async editEmail(data: EditEmailData): Promise<boolean> {
         await this.loginIfNeeded();
         try {
@@ -212,12 +213,12 @@ export class PrestoAPI {
         }
     }
 
-    /// Edits the user's phone number
-    /// Arguments:
-    /// data - EditPhoneData;
-    /// Which contains:
-    /// phone - string;
-    /// password - string;
+    // Edits the user's phone number
+    // Arguments:
+    // data - EditPhoneData;
+    // Which contains:
+    // phone - string;
+    // password - string;
     async editPhone(data: EditPhoneData): Promise<boolean> {
         await this.loginIfNeeded();
         try {
@@ -230,15 +231,15 @@ export class PrestoAPI {
         }
     }
 
-    /// Creates an order
-    /// Arguments:
-    /// data - OrderData;
-    /// Which contains:
-    /// restaurantId - number;
-    /// orderItems - OrderItem[];
-    /// Which contains:
-    /// dishId - number;
-    /// notes - string;
+    // Creates an order
+    // Arguments:
+    // data - OrderData;
+    // Which contains:
+    // restaurantId - number;
+    // orderItems - OrderItem[];
+    // Which contains:
+    // dishId - number;
+    // notes - string;
     async createOrder(data: OrderData): Promise<number> {
         await this.loginIfNeeded();
         try {
@@ -252,9 +253,9 @@ export class PrestoAPI {
         }
     }
 
-    /// Cancels an order
-    /// Arguments:
-    /// orderId - number;
+    // Cancels an order
+    // Arguments:
+    // orderId - number;
     async cancelOrder(orderId: number): Promise<boolean> {
         await this.loginIfNeeded();
         try {
@@ -267,15 +268,15 @@ export class PrestoAPI {
         }
     }
 
-    /// Gets the user's orders
-    /// Returns:
-    /// OrderInfo[];
-    /// Which contains:
-    /// id - number;
-    /// totalPrice - number;
-    /// userID - number;
-    /// restaurantId - number;
-    /// orderState - number;
+    // Gets the user's orders
+    // Returns:
+    // OrderInfo[];
+    // Which contains:
+    // id - number;
+    // totalPrice - number;
+    // userID - number;
+    // restaurantId - number;
+    // orderState - number;
     async getOrders(): Promise<OrderInfo[]> {
         await this.loginIfNeeded();
         try {
@@ -288,17 +289,17 @@ export class PrestoAPI {
         }
     }
 
-    /// Gets the user's order by ID
-    /// Arguments:
-    /// orderId - number;
-    /// Returns:
-    /// OrderInfo | null;
-    /// Which contains:
-    /// id - number;
-    /// totalPrice - number;
-    /// userID - number;
-    /// restaurantId - number;
-    /// orderState - number;
+    // Gets the user's order by ID
+    // Arguments:
+    // orderId - number;
+    // Returns:
+    // OrderInfo | null;
+    // Which contains:
+    // id - number;
+    // totalPrice - number;
+    // userID - number;
+    // restaurantId - number;
+    // orderState - number;
     async getOrderById(orderId: number): Promise<OrderInfo | null> {
         await this.loginIfNeeded();
         try {
@@ -311,11 +312,11 @@ export class PrestoAPI {
         }
     }
 
-    /// Deletes the user's account
-    /// Arguments:
-    /// data - DeleteAccountData;
-    /// Which contains:
-    /// password - string;
+    // Deletes the user's account
+    // Arguments:
+    // data - DeleteAccountData;
+    // Which contains:
+    // password - string;
     async deleteAccount(data: DeleteAccountData): Promise<boolean> {
         await this.loginIfNeeded();
         try {
@@ -334,20 +335,20 @@ export class PrestoAPI {
         }
     }
 
-    /// Gets all restaurants
-    /// Returns:
-    /// Restaurant[];
-    /// Which contains:
-    /// id - number;
-    /// title - string;
-    /// shortdescription - string;
-    /// description - string;
-    /// address - string;
-    /// rating - number;
-    /// ratingquantity - number;
-    /// images - string[];
-    /// tags - string[];
-    /// categories - Category[];
+    // Gets all restaurants
+    // Returns:
+    // Restaurant[];
+    // Which contains:
+    // id - number;
+    // title - string;
+    // shortdescription - string;
+    // description - string;
+    // address - string;
+    // rating - number;
+    // ratingquantity - number;
+    // images - string[];
+    // tags - string[];
+    // categories - Category[];
     async getRestaurants(): Promise<Restaurant[]> {
         try {
             const response = await axios.get(`${this.baseUrl}/restaurants`);
@@ -358,22 +359,22 @@ export class PrestoAPI {
         }
     }
 
-    /// Gets a restaurant by ID
-    /// Arguments:
-    /// id - number;
-    /// Returns:
-    /// Restaurant | null;
-    /// Which contains:
-    /// id - number;
-    /// title - string;
-    /// shortdescription - string;
-    /// description - string;
-    /// address - string;
-    /// rating - number;
-    /// ratingquantity - number;
-    /// images - string[];
-    /// tags - string[];
-    /// categories - Category[];
+    // Gets a restaurant by ID
+    // Arguments:
+    // id - number;
+    // Returns:
+    // Restaurant | null;
+    // Which contains:
+    // id - number;
+    // title - string;
+    // shortdescription - string;
+    // description - string;
+    // address - string;
+    // rating - number;
+    // ratingquantity - number;
+    // images - string[];
+    // tags - string[];
+    // categories - Category[];
     async getRestaurantById(id: number): Promise<Restaurant | null> {
         try {
             const response = await axios.get(`${this.baseUrl}/restaurant/id/${id}`);
@@ -384,23 +385,23 @@ export class PrestoAPI {
         }
     }
 
-    /// Gets a restaurant by title
-    /// Arguments:
-    /// title - string;
-    /// Returns:
-    /// Restaurant | null;
-    /// Which contains:
-    /// id - number;
-    /// title - string;
-    /// shortdescription - string;
-    /// description - string;
-    /// description - string;
-    /// address - string;
-    /// rating - number;
-    /// ratingquantity - number;
-    /// images - string[];
-    /// tags - string[];
-    /// categories - Category[];
+    // Gets a restaurant by title
+    // Arguments:
+    // title - string;
+    // Returns:
+    // Restaurant | null;
+    // Which contains:
+    // id - number;
+    // title - string;
+    // shortdescription - string;
+    // description - string;
+    // description - string;
+    // address - string;
+    // rating - number;
+    // ratingquantity - number;
+    // images - string[];
+    // tags - string[];
+    // categories - Category[];
     async getRestaurantByTitle(title: string): Promise<Restaurant | null> {
         try {
             const response = await axios.get(`${this.baseUrl}/restaurant/${title}`);
@@ -411,22 +412,22 @@ export class PrestoAPI {
         }
     }
 
-    /// Gets the top restaurants
-    /// Arguments:
-    /// quantity - number;
-    /// Returns:
-    /// Restaurant[];
-    /// Which contains:
-    /// id - number;
-    /// title - string;
-    /// shortdescription - string;
-    /// description - string;
-    /// address - string;
-    /// rating - number;
-    /// ratingquantity - number;
-    /// images - string[];
-    /// tags - string[];
-    /// categories - Category[];
+    // Gets the top restaurants
+    // Arguments:
+    // quantity - number;
+    // Returns:
+    // Restaurant[];
+    // Which contains:
+    // id - number;
+    // title - string;
+    // shortdescription - string;
+    // description - string;
+    // address - string;
+    // rating - number;
+    // ratingquantity - number;
+    // images - string[];
+    // tags - string[];
+    // categories - Category[];
     async getTopRestaurants(quantity: number): Promise<Restaurant[]> {
         try {
             const response = await axios.get(`${this.baseUrl}/restaurants/quantity/${quantity}`);
@@ -437,23 +438,23 @@ export class PrestoAPI {
         }
     }
 
-    /// Gets restaurants by page and quantity
-    /// Arguments:
-    /// page - number;
-    /// quantity - number;
-    /// Returns:
-    /// Restaurant[];
-    /// Which contains:
-    /// id - number;
-    /// title - string;
-    /// shortdescription - string;
-    /// description - string;
-    /// address - string;
-    /// rating - number;
-    /// ratingquantity - number;
-    /// images - string[];
-    /// tags - string[];
-    /// categories - Category[];
+    // Gets restaurants by page and quantity
+    // Arguments:
+    // page - number;
+    // quantity - number;
+    // Returns:
+    // Restaurant[];
+    // Which contains:
+    // id - number;
+    // title - string;
+    // shortdescription - string;
+    // description - string;
+    // address - string;
+    // rating - number;
+    // ratingquantity - number;
+    // images - string[];
+    // tags - string[];
+    // categories - Category[];
     async getRestaurantsByPageAndQuantity(page: number, quantity: number): Promise<Restaurant[]> {
         try {
             const response = await axios.get(`${this.baseUrl}/restaurants/quantity/${quantity}/page/${page}`);
@@ -464,22 +465,22 @@ export class PrestoAPI {
         }
     }
 
-    /// Searches restaurants
-    /// Arguments:
-    /// query - string;
-    /// Returns:
-    /// Restaurant[];
-    /// Which contains:
-    /// id - number;
-    /// title - string;
-    /// shortdescription - string;
-    /// description - string;
-    /// address - string;
-    /// rating - number;
-    /// ratingquantity - number;
-    /// images - string[];
-    /// tags - string[];
-    /// categories - Category[];
+    // Searches restaurants
+    // Arguments:
+    // query - string;
+    // Returns:
+    // Restaurant[];
+    // Which contains:
+    // id - number;
+    // title - string;
+    // shortdescription - string;
+    // description - string;
+    // address - string;
+    // rating - number;
+    // ratingquantity - number;
+    // images - string[];
+    // tags - string[];
+    // categories - Category[];
     async searchRestaurants(query: string): Promise<Restaurant[]> {
         try {
             const response = await axios.get(`${this.baseUrl}/search/${query}`);
@@ -490,22 +491,22 @@ export class PrestoAPI {
         }
     }
 
-    /// Gets restaurants by tag
-    /// Arguments:
-    /// tag - string;
-    /// Returns:
-    /// Restaurant[];
-    /// Which contains:
-    /// id - number;
-    /// title - string;
-    /// shortdescription - string;
-    /// description - string;
-    /// address - string;
-    /// rating - number;
-    /// ratingquantity - number;
-    /// images - string[];
-    /// tags - string[];
-    /// categories - Category[];
+    // Gets restaurants by tag
+    // Arguments:
+    // tag - string;
+    // Returns:
+    // Restaurant[];
+    // Which contains:
+    // id - number;
+    // title - string;
+    // shortdescription - string;
+    // description - string;
+    // address - string;
+    // rating - number;
+    // ratingquantity - number;
+    // images - string[];
+    // tags - string[];
+    // categories - Category[];
     async getRestaurantsByTag(tag: string): Promise<Restaurant[]> {
         try {
             const response = await axios.get(`${this.baseUrl}/tag/${tag}`);
@@ -516,11 +517,11 @@ export class PrestoAPI {
         }
     }
 
-    /// Gets an image
-    /// Arguments:
-    /// name - string;
-    /// Returns:
-    /// string | null (base64 encoded image);
+    // Gets an image
+    // Arguments:
+    // name - string;
+    // Returns:
+    // string | null (base64 encoded image);
     async getImage(name: string): Promise<string | null> {
         try {
             const response = await axios.get(`${this.baseUrl}/image/${name}`, { responseType: 'arraybuffer' });
