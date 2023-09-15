@@ -34,6 +34,14 @@ export interface OrderItem {
     notes: string;
 }
 
+export interface OrderInfo {
+    id: number;
+    totalPrice: number;
+    userID: number;
+    restaurantId: number;
+    orderState: number;
+}
+
 export interface OrderData {
     restaurantId: number;
     orderRequestedDate: Date;
@@ -231,16 +239,16 @@ export class PrestoAPI {
     /// Which contains:
     /// dishId - number;
     /// notes - string;
-    async createOrder(data: OrderData): Promise<boolean> {
+    async createOrder(data: OrderData): Promise<number> {
         await this.loginIfNeeded();
         try {
-            await axios.post(`${this.baseUrl}/order`, data, {
-                headers: { Authorization: `Bearer ${this.token}` },
+            const res = await axios.post(`${this.baseUrl}/order`, data, {
+                headers: {Authorization: `Bearer ${this.token}`},
             });
-            return true;
+            return res.data;
         } catch (error) {
             console.log(error);
-            return false;
+            return -1;
         }
     }
 
@@ -256,6 +264,50 @@ export class PrestoAPI {
             return true;
         } catch (error) {
             return false;
+        }
+    }
+
+    /// Gets the user's orders
+    /// Returns:
+    /// OrderInfo[];
+    /// Which contains:
+    /// id - number;
+    /// totalPrice - number;
+    /// userID - number;
+    /// restaurantId - number;
+    /// orderState - number;
+    async getOrders(): Promise<OrderInfo[]> {
+        await this.loginIfNeeded();
+        try {
+            const response = await axios.get(`${this.baseUrl}/user/orders`, {
+                headers: { Authorization: `Bearer ${this.token}` },
+            });
+            return response.data;
+        } catch (error) {
+            return [];
+        }
+    }
+
+    /// Gets the user's order by ID
+    /// Arguments:
+    /// orderId - number;
+    /// Returns:
+    /// OrderInfo | null;
+    /// Which contains:
+    /// id - number;
+    /// totalPrice - number;
+    /// userID - number;
+    /// restaurantId - number;
+    /// orderState - number;
+    async getOrderById(orderId: number): Promise<OrderInfo | null> {
+        await this.loginIfNeeded();
+        try {
+            const response = await axios.get(`${this.baseUrl}/user/order/${orderId}`, {
+                headers: { Authorization: `Bearer ${this.token}` },
+            });
+            return response.data;
+        } catch (error) {
+            return null;
         }
     }
 
