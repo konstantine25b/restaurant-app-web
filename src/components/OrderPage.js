@@ -29,7 +29,7 @@ const GoBackDiv = styled.div`
 const OrderItem = styled.div`
   margin-bottom: 10px;
   font-size: 18px;
-  border: 1px solid #ccc;
+  border: 1px solid ${COLORS.mainColor};
   padding: 10px;
   border-radius: 5px;
 `;
@@ -55,7 +55,7 @@ const OrderNotes = styled.div`
 `;
 
 const BackToHomeButton = styled.div`
-  background-color: #007bff;
+  background-color: ${COLORS.mainColor};
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -73,7 +73,7 @@ const BackToHomeButton = styled.div`
 
 const OrderContainer = styled.div`
   width: 80%; /* Adjust the width as needed */
-  border: 2px solid #007bff; /* Border style */
+  border: 2px solid ${COLORS.mainColor}; /* Border style */
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
   padding: 20px;
@@ -119,9 +119,7 @@ const OrderPage = () => {
   return (
     <OrderDetailsContainer>
       <GoBackDiv
-        onClick={() => {
-          navigate(-1);
-        }}
+        onClick={handleNavigation}
       >
         
           <XMarkIcon

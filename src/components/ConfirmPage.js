@@ -165,10 +165,9 @@ export default function BasketPage() {
         `Table Number: ${tableNumber}, Payment Method: ${paymentMethod}`
       );
       handleCreateOrder()
-      // setInterval(() => {
-        
-      //   window.location.reload(); // Reloads the page every second
-      // }, 1500);
+      setInterval(() => {
+        window.location.reload(); // Reloads the page every second
+      }, 1500);
 
     }
   };
