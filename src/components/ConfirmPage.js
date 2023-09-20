@@ -24,6 +24,8 @@ export default function BasketPage() {
   const BasketTotal = useSelector(selectBasketTotal);
   const [newGroupedItemsInBasket, setNewGroupedItemsInBasket] = useState([]);
   const [orderItems, setOrderItems] = useState([]);
+  
+
 
   const navigate = useNavigate();
   //es dros sazgvravs plius 10 wams umatebs orderis micemis funqciistvis
@@ -38,11 +40,37 @@ export default function BasketPage() {
       orderItems: orderItems,
     };
     const createOrderSuccess = await API.createOrder(orderData);
+    let ordersArr = localStorage.getItem("allOrders")
+
+    if(createOrderSuccess!=-1){
+      if(ordersArr){
+        
+        let Arr = JSON.parse(ordersArr)
+        // console.log(Arr)
+        Arr.push(createOrderSuccess.orderId)
+        // console.log(Arr)
+        localStorage.setItem("allOrders" , JSON.stringify(Arr))
+      
+      }
+      else{
+        let OrderId = createOrderSuccess.orderId //es prosta stringifys gareshe ar gamodis
+        let arr = []
+        arr.push(OrderId)
+        localStorage.setItem("allOrders" , JSON.stringify(arr))
+      }
+
+    }
+    else{
+      console.log("order failed!")
+    }
+    
+    
     console.log(
       createOrderSuccess
         ? "Order created successfully!"
         : "Order creation failed."
     );
+    console.log(createOrderSuccess)
     createOrderSuccess ? navigate("/success") : navigate("/fail");
   };
 
@@ -61,8 +89,8 @@ export default function BasketPage() {
   }
 
   useEffect(() => {
-    console.log(items);
-    console.log(restaurant);
+    // console.log(items);
+    // console.log(restaurant);
     let differnetItemsArr = [];
     for (let i = 0; i < items.length; i++) {
       if (i == 0) {
@@ -95,7 +123,7 @@ export default function BasketPage() {
 
   useEffect(() => {
     let arr = [];
-    console.log(items);
+    // console.log(items);
     for (let i = 0; i < items.length; i++) {
       let eachItem = items[i];
       if (eachItem.unCheckedIngredients.length != 0) {
@@ -121,7 +149,7 @@ export default function BasketPage() {
     }
     setOrderItems(arr);
   }, [items]);
-  console.log(orderItems);
+  // console.log(orderItems);
 
   const [tableNumber, setTableNumber] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -137,12 +165,14 @@ export default function BasketPage() {
         `Table Number: ${tableNumber}, Payment Method: ${paymentMethod}`
       );
       handleCreateOrder()
-      setInterval(() => {
-        window.location.reload(); // Reloads the page every second
-      }, 1500);
+      // setInterval(() => {
+        
+      //   window.location.reload(); // Reloads the page every second
+      // }, 1500);
 
     }
   };
+
 
   return (
     <MainDiv>

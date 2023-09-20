@@ -55,7 +55,7 @@ export default function HomeScreen() {
     );
   }, [dispatch, restInfo]);
 
-  const prevOrder = localStorage.getItem("orderedItems"); // es axalia rom vnaxot orderebi aris tu ara
+  const prevOrder = localStorage.getItem("allOrders"); // es axalia rom vnaxot orderebi aris tu ara
   let prevOrder1;
 
   if(prevOrder){

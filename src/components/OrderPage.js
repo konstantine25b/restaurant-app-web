@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { API } from "../Processing/PrestoAPI";
+import { XMarkIcon } from "@heroicons/react/24/solid";
+import COLORS from "../Themes/colors";
 
 const OrderDetailsContainer = styled.div`
   display: flex;
@@ -9,6 +12,20 @@ const OrderDetailsContainer = styled.div`
   padding: 20px;
 `;
 
+const GoBackDiv = styled.div`
+  margin-top: 34px;
+  position: fixed;
+  z-index: 1;
+  top: -21px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  background-color: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+`;
 const OrderItem = styled.div`
   margin-bottom: 10px;
   font-size: 18px;
@@ -70,42 +87,74 @@ const OrderPage = () => {
     navigate("/");
   };
 
+  const [orders, setOrders] = useState([]);
+
+  let dataReturnded = false;
   // Access orderInfo from state
-  const orderInfo = localStorage.getItem("orderedItems");
-  const orderInfo0 = orderInfo ? JSON.parse(orderInfo) : "";
-  console.log(orderInfo0)
-  
+
+  const getOrders = async (arr) => {
+    let newOrders = [];
+    for (let i = 0; i < arr.length; i++) {
+      const order = await API.getOrderById(arr[i]);
+      newOrders.push(order);
+    }
+    setOrders(newOrders);
+  };
+
+  let orderIds = localStorage.getItem("allOrders");
+  let orderIds0 = orderIds ? JSON.parse(orderIds) : "";
+
+  useEffect(() => {
+    console.log(dataReturnded);
+    if (dataReturnded == false && orderIds0) {
+      dataReturnded = true;
+      getOrders(orderIds0);
+    }
+    
+  }, []);
+  console.log(orders)
+
+ 
 
   return (
     <OrderDetailsContainer>
+      <GoBackDiv
+        onClick={() => {
+          navigate(-1);
+        }}
+      >
+        
+          <XMarkIcon
+            style={{
+              width: 40,
+              height: 40,
+            }}
+            color={COLORS.mainColor}
+          />
+        
+      </GoBackDiv>
       <h2>Order Details</h2>
-      {orderInfo0?.map((orderInfo1, index) => (
+      {orders?.map((order, index) => (
+        
         <OrderContainer key={index}>
           <OrderItem>
-            <strong>Order ID:</strong> {orderInfo1[0]?.Id}
+            <strong>Order ID:</strong> {order?.id}
           </OrderItem>
           <OrderItem>
             <strong>Order Request Date:</strong>{" "}
-            {new Date(orderInfo1?.orderRequestedDate).toLocaleString()}
+            {new Date(order?.orderRequestedDate).toLocaleString()}
           </OrderItem>
           <OrderItem>
             <strong>Order Sent Date:</strong>{" "}
-            {orderInfo1?.orderSent
-              ? new Date(orderInfo1?.orderSent).toLocaleString()
+            {order?.orderSent
+              ? new Date(order?.orderSent).toLocaleString()
               : "Not sent yet"}
           </OrderItem>
           <OrderItem>
-            <TotalPrice>
-              Total Price:
-            </TotalPrice>{" "}
-            ₾{orderInfo1?.totalPrice?.toFixed(2)}
+            <TotalPrice>Total Price:</TotalPrice> ₾
+            {order?.totalPrice?.toFixed(2)}
           </OrderItem>
-          <UserId>
-            <strong>Customer ID:</strong> {orderInfo1?.userId}
-          </UserId>
-          <OrderNotes>
-            <strong>Notes:</strong> {orderInfo1?.notes || "No notes provided"}
-          </OrderNotes>
+          
         </OrderContainer>
       ))}
       <BackToHomeButton onClick={handleNavigation}>
