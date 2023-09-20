@@ -10,6 +10,7 @@ import ConfirmPage from "./components/ConfirmPage";
 import SuccessPage from "./components/SuccessPage"
 import FailPage from "./components/FailPage"
 import OrderPage from "./components/OrderPage";
+import EachOrderDetails from "./components/EachOrderDetails";
 
 
 
@@ -26,6 +27,8 @@ const router = createBrowserRouter(
        <Route path='/success' element={<SuccessPage/>}/>
        <Route path='/fail' element={<FailPage/>}/>
        <Route path='/OrderPage' element={<OrderPage/>}/>
+       <Route path='/OrderPage/Eachorder' element={<EachOrderDetails/>}/>
+
       
     </Route>
     

@@ -33,6 +33,26 @@ const OrderItem = styled.div`
   padding: 10px;
   border-radius: 5px;
 `;
+const OrderButton = styled.div`
+  margin-bottom: 10px;
+  font-size: 18px;
+  border: 1px solid ${COLORS.mainColor};
+  background-color: ${COLORS.mainColor}; /* Background color */
+  color: #fff; /* Text color */
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold; /* Make text bolder */
+  cursor: pointer; /* Add pointer cursor */
+  transition: background-color 0.2s; /* Add hover effect */
+
+  &:hover {
+    opacity: 0.95 /* Change background color on hover */
+  }
+
+  &:active {
+    opacity: 0.9; /* Change background color when clicking */
+  }
+`;
 
 const TotalPrice = styled.div`
   font-size: 18px;
@@ -110,34 +130,30 @@ const OrderPage = () => {
       dataReturnded = true;
       getOrders(orderIds0);
     }
-    
   }, []);
-  console.log(orders)
-
- 
+  console.log(orders);
 
   return (
     <OrderDetailsContainer>
-      <GoBackDiv
-        onClick={handleNavigation}
-      >
-        
-          <XMarkIcon
-            style={{
-              width: 40,
-              height: 40,
-            }}
-            color={COLORS.mainColor}
-          />
-        
+      <GoBackDiv onClick={handleNavigation}>
+        <XMarkIcon
+          style={{
+            width: 40,
+            height: 40,
+          }}
+          color={COLORS.mainColor}
+        />
       </GoBackDiv>
       <h2>Order Details</h2>
       {orders?.map((order, index) => (
-        
         <OrderContainer key={index}>
-          <OrderItem>
-            <strong>Order ID:</strong> {order?.id}
-          </OrderItem>
+          <OrderButton onClick ={()=>{
+            navigate("/OrderPage/Eachorder", {
+              state: {order : order }
+            })
+          }}>
+            See Full Order Details
+          </OrderButton>
           <OrderItem>
             <strong>Order Request Date:</strong>{" "}
             {new Date(order?.orderRequestedDate).toLocaleString()}
@@ -152,7 +168,6 @@ const OrderPage = () => {
             <TotalPrice>Total Price:</TotalPrice> ₾
             {order?.totalPrice?.toFixed(2)}
           </OrderItem>
-          
         </OrderContainer>
       ))}
       <BackToHomeButton onClick={handleNavigation}>
