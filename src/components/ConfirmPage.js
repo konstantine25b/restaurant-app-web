@@ -32,7 +32,7 @@ export default function BasketPage() {
 
   const handleCreateOrder = async () => {
     const newTime = new Date();
-    newTime.setSeconds(newTime.getSeconds() + 30);
+    newTime.setMinutes(newTime.getMinutes() + 45);
 
     const orderData = {
       restaurantId: restaurant.id, // Replace with the desired restaurant ID
