@@ -57,19 +57,22 @@ export default function HomeScreen() {
 
   const prevOrder = localStorage.getItem("allOrders"); // es axalia rom vnaxot orderebi aris tu ara
   let prevOrder1;
-  
-  
+  const avaibleOrders = localStorage.getItem("avaibleOrders");
+  let avaibleOrders0;
 
-  if(prevOrder){
-    prevOrder1= JSON.parse(prevOrder)
-    console.log(prevOrder1)
+  if (prevOrder) {
+    prevOrder1 = JSON.parse(prevOrder);
+    console.log(prevOrder1);
   }
- 
+  if (avaibleOrders) {
+    avaibleOrders0= JSON.parse(avaibleOrders)
+    console.log(avaibleOrders0);
+  }
 
   return (
     <MainDiv>
       {prevOrder ? (
-        <OrderNotification orderCount={prevOrder1.length}></OrderNotification>
+        <OrderNotification orderCount={avaibleOrders0.length}></OrderNotification>
       ) : null}
       {items.length > 0 ? <Basket theme={"light"} /> : null}
       <ImageDiv>

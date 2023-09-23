@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API } from "../Processing/PrestoAPI";
@@ -107,7 +107,7 @@ const BackToHomeButton = styled.div`
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 21px;
   text-decoration: none;
   margin-top: 20px;
   cursor: pointer;
@@ -158,6 +158,12 @@ const OrderPage = () => {
 
   const [orders, setOrders] = useState([]);
 
+
+  const [availableOrders, setAvailableOrders] = useState([]);
+  const [expiredOrders, setExpiredOrders] = useState([]);
+
+  let avaibleArr=[];
+
   const cancelingOrder = async (orderId) => {
     // Ask the user for confirmation
     const confirmCancel = window.confirm(
@@ -185,6 +191,17 @@ const OrderPage = () => {
           );
           setOrders(updatedOrders);
 
+          
+
+          // Filter out the canceled order from orders state
+          const updatedAvailableOrders = availableOrders.filter(
+            (order) => order && order.id !== orderId
+          );
+          setAvailableOrders(updatedAvailableOrders);
+          localStorage.setItem("avaibleOrders" ,JSON.stringify(updatedAvailableOrders))
+
+
+
           alert("Order canceled successfully!");
         } else {
           alert("Order cancellation failed.");
@@ -194,14 +211,6 @@ const OrderPage = () => {
         // Handle any errors that occurred during the Promise execution
         console.error(error);
       });
-  };
-
-  const calculateTimeRemaining = (order) => {
-    const currentTime = new Date();
-    const requestTime = new Date(order?.orderRequestedDate);
-    const timeDifference = requestTime - currentTime;
-
-    return Math.max(timeDifference, 0); // Ensure time remaining is not negative
   };
 
   const formatTime = (time) => {
@@ -216,6 +225,9 @@ const OrderPage = () => {
 
   const [timeRemaining, setTimeRemaining] = useState({});
 
+
+
+
   useEffect(() => {
     const fetchOrders = async () => {
       orderIds0 = orderIds0.reverse();
@@ -228,12 +240,31 @@ const OrderPage = () => {
           const currentTime = new Date();
           const requestTime = new Date(order?.orderRequestedDate);
           const timeDifference = requestTime - currentTime;
-
           if (order) {
             setTimeRemaining((prevTimeRemaining) => ({
               ...prevTimeRemaining,
               [order.id]: timeDifference,
             }));
+
+            if (timeDifference > -86400000) {
+              // Order is available
+              
+              setAvailableOrders((prevAvailableOrders) => [
+                ...prevAvailableOrders,
+                order,
+              ])
+              
+              avaibleArr.push(order)
+              localStorage.setItem("avaibleOrders" ,JSON.stringify(avaibleArr))
+             
+            } else {
+              // Order is expired for more than 1 day
+              setExpiredOrders((prevExpiredOrders) => [
+                ...prevExpiredOrders,
+                order,
+              ]);
+            }
+
             setOrders((prevOrders) => [...prevOrders, order]);
           }
         } catch (error) {
@@ -248,6 +279,8 @@ const OrderPage = () => {
       fetchOrders();
     }
   }, []);
+
+ 
 
   useEffect(() => {
     // Update timeRemaining every second
@@ -276,110 +309,110 @@ const OrderPage = () => {
           color={COLORS.mainColor}
         />
       </GoBackDiv>
+
       <h2>Order Details</h2>
+      <BackToHomeButton onClick={handleNavigation}>
+        Add Another Order or See Menu
+      </BackToHomeButton>
 
       <OrderSectionTitle>Still Available Orders</OrderSectionTitle>
-      {orders
-        ?.filter(
-          (order) => !order || (timeRemaining[order.id] || 0) > -86400000
-        )
-        .map((order, index) => {
-          if (!order) {
-            // Skip null or undefined orders
-            return null;
-          }
+      {availableOrders.map((order, index) => {
+        if (!order) {
+          // Skip null or undefined orders
+          return null;
+        }
 
-          const remainingTime = timeRemaining[order.id] || 0;
-          const timeFormatted = formatTime(Math.max(remainingTime, 0));
+        const remainingTime = timeRemaining[order.id] || 0;
+        const timeFormatted = formatTime(Math.max(remainingTime, 0));
 
-          let statusStyle = { color: "blue" };
-          let cancelButtonStyle = {
-            backgroundColor: COLORS.mainColor,
-            color: "#fff",
-          };
-          let cancelButtonText = "Cancel Order";
-          let cancelationInfo = null;
-          let isCancelButtonActive = true;
+        let statusStyle = { color: "blue" };
+        let cancelButtonStyle = {
+          backgroundColor: "red",
+          color: "#fff",
+        };
+        let cancelButtonText = "Cancel Order";
+        let cancelationInfo = null;
+        let isCancelButtonActive = true;
 
-          if (remainingTime <= 0) {
-            statusStyle = { color: "red" };
-            cancelButtonStyle = { backgroundColor: "black", color: "#fff" };
-            cancelButtonText = "Order Expired";
-            cancelationInfo = (
-              <OrderNotes style={{ color: "red" }}>
-                Order cannot be canceled
-              </OrderNotes>
-            );
-            isCancelButtonActive = false;
-          } else if (remainingTime < 1800000) {
-            // Less than 30 minutes (1800000 milliseconds)
-            statusStyle = { color: "blue" };
-            cancelButtonStyle = { backgroundColor: "black", color: "#fff" };
-            cancelButtonText = "Cancellation Not Possible";
-            cancelationInfo = (
-              <OrderNotes style={{ color: "red" }}>
-                Cancellation not possible if less than 30 minutes left
-              </OrderNotes>
-            );
-            isCancelButtonActive = false;
-          } else if (remainingTime <= -86400000) {
-            // Expired for more than 1 day (86400000 milliseconds)
-            statusStyle = { color: "red" };
-            cancelButtonStyle = { backgroundColor: "black", color: "#fff" };
-            cancelButtonText = "Order Expired";
-            cancelationInfo = (
-              <OrderNotes style={{ color: "red" }}>
-                Order cannot be canceled
-              </OrderNotes>
-            );
-            isCancelButtonActive = false;
-          }
-
-          return (
-            <OrderContainer key={index}>
-              <OrderButton
-                onClick={() => {
-                  navigate("/OrderPage/Eachorder", {
-                    state: { order: order },
-                  });
-                }}
-              >
-                See Full Order Details
-              </OrderButton>
-              <OrderItem>
-                <strong>Order Request Date:</strong>{" "}
-                <span style={statusStyle}>
-                  {new Date(order?.orderRequestedDate).toLocaleString()}
-                </span>
-                <br />
-                <strong>Time Remaining:</strong>{" "}
-                <span style={statusStyle}>{timeFormatted}</span>
-              </OrderItem>
-              <OrderItem>
-                <TotalPrice>Total Price:</TotalPrice> ₾
-                {order?.totalPrice?.toFixed(2)}
-              </OrderItem>
-              <CancelOrderButton
-                onClick={() => {
-                  if (isCancelButtonActive && remainingTime > 0) {
-                    cancelingOrder(order?.id);
-                  }
-                }}
-                style={cancelButtonStyle}
-                disabled={!isCancelButtonActive}
-              >
-                {cancelButtonText}
-              </CancelOrderButton>
-              {cancelationInfo}
-            </OrderContainer>
+        if (remainingTime <= 0) {
+          statusStyle = { color: "red" };
+          cancelButtonStyle = { backgroundColor: "black", color: "#fff" };
+          cancelButtonText = "Order Expired";
+          cancelationInfo = (
+            <OrderNotes style={{ color: "red" }}>
+              Order cannot be canceled
+            </OrderNotes>
           );
-        })}
+          isCancelButtonActive = false;
+        } else if (remainingTime < 1800000) {
+          // Less than 30 minutes (1800000 milliseconds)
+          statusStyle = { color: "blue" };
+          cancelButtonStyle = { backgroundColor: "black", color: "#fff" };
+          cancelButtonText = "Cancellation Not Possible";
+          cancelationInfo = (
+            <OrderNotes style={{ color: "red" }}>
+              Cancellation not possible if less than 30 minutes left
+            </OrderNotes>
+          );
+          isCancelButtonActive = false;
+        } else if (remainingTime <= -86400000) {
+          // Expired for more than 1 day (86400000 milliseconds)
+          statusStyle = { color: "red" };
+          cancelButtonStyle = { backgroundColor: "black", color: "#fff" };
+          cancelButtonText = "Order Expired";
+          cancelationInfo = (
+            <OrderNotes style={{ color: "red" }}>
+              Order cannot be canceled
+            </OrderNotes>
+          );
+          isCancelButtonActive = false;
+        }
+
+        return (
+          <OrderContainer key={index}>
+            <OrderButton
+              onClick={() => {
+                navigate("/OrderPage/Eachorder", {
+                  state: { order: order },
+                });
+              }}
+            >
+              See Full Order Details
+            </OrderButton>
+            <OrderItem>
+              <strong>Order Request Date:</strong>{" "}
+              <span style={statusStyle}>
+                {new Date(order?.orderRequestedDate).toLocaleString()}
+              </span>
+              <br />
+              <strong>Time Remaining:</strong>{" "}
+              <span style={statusStyle}>{timeFormatted}</span>
+            </OrderItem>
+            <OrderItem>
+              <TotalPrice>Total Price:</TotalPrice> ₾
+              {order?.totalPrice?.toFixed(2)}
+            </OrderItem>
+            <CancelOrderButton
+              onClick={() => {
+                if (isCancelButtonActive && remainingTime > 0) {
+                  cancelingOrder(order?.id);
+                }
+              }}
+              style={cancelButtonStyle}
+              disabled={!isCancelButtonActive}
+            >
+              {cancelButtonText}
+            </CancelOrderButton>
+            {cancelationInfo}
+          </OrderContainer>
+        );
+      })}
 
       <Divider />
 
       <ExpiredOrdersContainer>
         <OrderSectionTitle>Expired Orders (More than 1 Day)</OrderSectionTitle>
-        {orders?.map((order, index) => {
+        {expiredOrders?.map((order, index) => {
           if (!order) {
             // Skip null or undefined orders
             return null;
@@ -437,9 +470,6 @@ const OrderPage = () => {
           return null;
         })}
       </ExpiredOrdersContainer>
-      <BackToHomeButton onClick={handleNavigation}>
-        Add Another Order or See Menu
-      </BackToHomeButton>
     </OrderDetailsContainer>
   );
 };
