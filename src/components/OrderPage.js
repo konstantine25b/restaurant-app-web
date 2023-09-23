@@ -175,7 +175,7 @@ const OrderPage = () => {
     }
 
     const cancel = API.cancelOrder(orderId);
-    console.log(cancel, orderId);
+    // console.log(cancel, orderId);
     cancel
       .then((result) => {
         // 'result' contains the resolved value of the Promise
@@ -296,7 +296,7 @@ const OrderPage = () => {
       clearInterval(timer); // Cleanup interval on unmount
     };
   }, [timeRemaining]);
-  console.log(orders);
+  // console.log(orders);
 
   return (
     <OrderDetailsContainer>
