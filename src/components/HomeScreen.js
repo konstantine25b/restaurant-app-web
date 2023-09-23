@@ -57,9 +57,12 @@ export default function HomeScreen() {
 
   const prevOrder = localStorage.getItem("allOrders"); // es axalia rom vnaxot orderebi aris tu ara
   let prevOrder1;
+  
+  
 
   if(prevOrder){
     prevOrder1= JSON.parse(prevOrder)
+    console.log(prevOrder1)
   }
  
 
