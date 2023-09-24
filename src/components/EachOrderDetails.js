@@ -135,6 +135,7 @@ const EachOrderDetails = () => {
 
   const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining());
   const [dishes, setDishes] = useState([]);
+  const [fetchedDishes, setFetchedDishes] = useState([]);
 
   // Calculate the time remaining based on the request date
   function calculateTimeRemaining() {
@@ -144,7 +145,7 @@ const EachOrderDetails = () => {
     return Math.max(timeDifference, 0);
   }
 
-  const dishesUpdated = useRef(false)
+
 
   // Update the time remaining every second
   useEffect(() => {
@@ -152,13 +153,12 @@ const EachOrderDetails = () => {
     async function getDishesArr() {
       const arr = orderInfo?.orderItems;
       const fetchedDishes = [];
-
+    
       for (let i = 0; i < arr.length; i++) {
         const dish = await API.getDishById(arr[i].dish_id);
         fetchedDishes.push(dish);
+        setFetchedDishes([...fetchedDishes]); // Update the state with the new dish
       }
-
-      setDishes(fetchedDishes);
     }
 
     getDishesArr();
@@ -227,14 +227,7 @@ const EachOrderDetails = () => {
       });
   };
 
-  const getdish = async (dishId) => {
-    const dish = await API.getDishById(dishId);
-    let arr = dishes;
-    arr.push(dish);
-    console.log(arr);
-    setDishes(arr);
-  };
-
+ 
   // Format the time remaining for display
   function formatTimeRemaining() {
     const minutes = Math.floor(timeRemaining / 60000);
@@ -320,20 +313,20 @@ const EachOrderDetails = () => {
 
       <OrderItemContainer>
         <h3>Order Items:</h3>
-        {orderInfo?.orderItems.map((item, index) => {
-          console.log(dishes)
+        {fetchedDishes.map((dish, index) => {
+          // console.log(dish.title)
           return (
             <div key={index}>
               <p>
                 <strong>Item {index + 1}:</strong>{" "}
                 <span style={{ color: "black" }}>
-                  {dishes.length > index ? dishes[index]?.title  : "Unknown"}
+                  {dish ? dish?.title  : "Unknown"}
                 </span>
               </p>
               <p>
                 <strong>Notes:</strong>{" "}
                 <span style={{ color: "black" }}>
-                  {item.notes || "No special notes"}
+                  {orderInfo?.orderItems[index]?.notes || "No special notes"}
                 </span>
               </p>
             </div>
