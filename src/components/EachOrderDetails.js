@@ -50,15 +50,6 @@ const OrderItem = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   color: ${COLORS.mainColor};
 `;
-
-const TotalPrice = styled.div`
-  font-size: 18px;
-  font-weight: bold;
-  padding: 5px;
-  margin-top: 10px;
-  color: ${COLORS.mainColor};
-`;
-
 const OrderItemContainer = styled.div`
   margin-top: 20px;
   width: 80%;
@@ -69,6 +60,35 @@ const OrderItemContainer = styled.div`
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   color: ${COLORS.mainColor};
 `;
+
+const OrderItemDiv = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const OrderItemText = styled.div`
+  flex: 1;
+  margin-left: 10px;
+  font-size: 18px;
+  color: ${COLORS.mainColor};
+`;
+
+const OrderItemImage = styled.img`
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+
+  object-fit: cover;
+`;
+const TotalPrice = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  padding: 5px;
+  margin-top: 10px;
+  color: ${COLORS.mainColor};
+`;
+
 const OrderNotes = styled.div`
   font-size: 16px;
   padding: 5px;
@@ -131,7 +151,7 @@ const EachOrderDetails = () => {
   const { state } = useLocation();
   const orderInfo = state.order;
   const navigate = useNavigate();
-  console.log(orderInfo);
+  // console.log(orderInfo);
 
   const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining());
   const [dishes, setDishes] = useState([]);
@@ -145,15 +165,12 @@ const EachOrderDetails = () => {
     return Math.max(timeDifference, 0);
   }
 
-
-
   // Update the time remaining every second
   useEffect(() => {
-    
     async function getDishesArr() {
       const arr = orderInfo?.orderItems;
       const fetchedDishes = [];
-    
+
       for (let i = 0; i < arr.length; i++) {
         const dish = await API.getDishById(arr[i].dish_id);
         fetchedDishes.push(dish);
@@ -227,7 +244,6 @@ const EachOrderDetails = () => {
       });
   };
 
- 
   // Format the time remaining for display
   function formatTimeRemaining() {
     const minutes = Math.floor(timeRemaining / 60000);
@@ -316,20 +332,24 @@ const EachOrderDetails = () => {
         {fetchedDishes.map((dish, index) => {
           // console.log(dish.title)
           return (
-            <div key={index}>
-              <p>
+            <OrderItemDiv key={index}>
+              
+              <OrderItemText>
                 <strong>Item {index + 1}:</strong>{" "}
                 <span style={{ color: "black" }}>
-                  {dish ? dish?.title  : "Unknown"}
+                  {dish ? dish.title : "Unknown"}
                 </span>
-              </p>
-              <p>
+                <br />
                 <strong>Notes:</strong>{" "}
                 <span style={{ color: "black" }}>
                   {orderInfo?.orderItems[index]?.notes || "No special notes"}
                 </span>
-              </p>
-            </div>
+              </OrderItemText>
+              <OrderItemImage
+                src={dish ? dish.image : "placeholder-image-url"}
+                alt={dish ? dish.title : "Unknown"}
+              />
+            </OrderItemDiv>
           );
         })}
       </OrderItemContainer>
