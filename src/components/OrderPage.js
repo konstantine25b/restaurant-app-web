@@ -121,12 +121,20 @@ const BackToHomeButton = styled.div`
 
 const OrderContainer = styled.div`
   width: 80%;
-  border: 2px solid ${COLORS.mainColor};
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
   margin-top: 20px;
   transition: transform 0.3s;
+  border: 2px solid ${(props) => // Change border color based on orderStatus
+    props.orderStatus == 0
+      ? "orange"
+      : props.orderStatus == 1
+      ? "blue"
+      : props.orderStatus == 2
+      ? "red"
+      : COLORS.mainColor
+  }; 
 
   &:hover {
     transform: scale(1.03);
@@ -158,11 +166,10 @@ const OrderPage = () => {
 
   const [orders, setOrders] = useState([]);
 
-
   const [availableOrders, setAvailableOrders] = useState([]);
   const [expiredOrders, setExpiredOrders] = useState([]);
 
-  let avaibleArr=[];
+  let avaibleArr = [];
 
   const cancelingOrder = async (orderId) => {
     // Ask the user for confirmation
@@ -191,16 +198,15 @@ const OrderPage = () => {
           );
           setOrders(updatedOrders);
 
-          
-
           // Filter out the canceled order from orders state
           const updatedAvailableOrders = availableOrders.filter(
             (order) => order && order.id !== orderId
           );
           setAvailableOrders(updatedAvailableOrders);
-          localStorage.setItem("avaibleOrders" ,JSON.stringify(updatedAvailableOrders))
-
-
+          localStorage.setItem(
+            "avaibleOrders",
+            JSON.stringify(updatedAvailableOrders)
+          );
 
           alert("Order canceled successfully!");
         } else {
@@ -225,9 +231,6 @@ const OrderPage = () => {
 
   const [timeRemaining, setTimeRemaining] = useState({});
 
-
-
-
   useEffect(() => {
     const fetchOrders = async () => {
       orderIds0 = orderIds0.reverse();
@@ -248,15 +251,14 @@ const OrderPage = () => {
 
             if (timeDifference > -86400000) {
               // Order is available
-              
+
               setAvailableOrders((prevAvailableOrders) => [
                 ...prevAvailableOrders,
                 order,
-              ])
-              
-              avaibleArr.push(order)
-              localStorage.setItem("avaibleOrders" ,JSON.stringify(avaibleArr))
-             
+              ]);
+
+              avaibleArr.push(order);
+              localStorage.setItem("avaibleOrders", JSON.stringify(avaibleArr));
             } else {
               // Order is expired for more than 1 day
               setExpiredOrders((prevExpiredOrders) => [
@@ -279,8 +281,6 @@ const OrderPage = () => {
       fetchOrders();
     }
   }, []);
-
- 
 
   useEffect(() => {
     // Update timeRemaining every second
@@ -324,8 +324,25 @@ const OrderPage = () => {
 
         const remainingTime = timeRemaining[order.id] || 0;
         const timeFormatted = formatTime(Math.max(remainingTime, 0));
-
+        // es order statuss akontrolebs
+       // es drois status stylia
         let statusStyle = { color: "blue" };
+        let statusText = "Order is pending";
+        // es kide aris order.orderStates status style
+        let statusStyle1 = { color: "blue" };
+        if (order.orderState === 0) {
+          statusStyle1 = { color: "orange" };
+          statusText = "Order is Pending";
+          
+        } else if (order.orderState === 1) {
+          statusStyle1 = { color: "blue" };
+          statusText = "Order is confirmed";
+          
+        } else if (order.orderState === 2) {
+          statusStyle1 = { color: "red" };
+          statusText = "Restaurant denied the order";
+          
+        }
         let cancelButtonStyle = {
           backgroundColor: "red",
           color: "#fff",
@@ -368,8 +385,14 @@ const OrderPage = () => {
           isCancelButtonActive = false;
         }
 
+        let orderStatus = order.orderState
+      
         return (
-          <OrderContainer key={index}>
+          <OrderContainer key={index} orderStatus={orderStatus}>
+            <OrderItem>
+              <strong>Order Status:</strong>{" "}
+              <span style={statusStyle1}>{statusText}</span>
+            </OrderItem>
             <OrderButton
               onClick={() => {
                 navigate("/OrderPage/Eachorder", {
@@ -379,6 +402,7 @@ const OrderPage = () => {
             >
               See Full Order Details
             </OrderButton>
+
             <OrderItem>
               <strong>Order Request Date:</strong>{" "}
               <span style={statusStyle}>
@@ -388,6 +412,7 @@ const OrderPage = () => {
               <strong>Time Remaining:</strong>{" "}
               <span style={statusStyle}>{timeFormatted}</span>
             </OrderItem>
+
             <OrderItem>
               <TotalPrice>Total Price:</TotalPrice> ₾
               {order?.totalPrice?.toFixed(2)}
@@ -411,7 +436,7 @@ const OrderPage = () => {
       <Divider />
 
       <ExpiredOrdersContainer>
-        <OrderSectionTitle>Expired Orders (More than 1 Day)</OrderSectionTitle>
+        <OrderSectionTitle>Previous Orders (More than 1 Day)</OrderSectionTitle>
         {expiredOrders?.map((order, index) => {
           if (!order) {
             // Skip null or undefined orders
@@ -420,15 +445,19 @@ const OrderPage = () => {
 
           const remainingTime = timeRemaining[order.id] || 0;
           const timeFormatted = formatTime(Math.max(remainingTime, 0));
+          
 
           if (remainingTime <= -86400000) {
             // Expired for more than 1 day (86400000 milliseconds)
             let statusStyle = { color: "red" };
             let cancelButtonStyle = { backgroundColor: "black", color: "#fff" };
             let cancelButtonText = "Order Expired";
+            
+           
+            
 
             return (
-              <OrderContainer key={index}>
+              <OrderContainer key={index} >
                 <OrderButton
                   onClick={() => {
                     navigate("/OrderPage/Eachorder", {
