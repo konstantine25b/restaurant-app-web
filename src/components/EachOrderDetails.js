@@ -151,6 +151,7 @@ const EachOrderDetails = () => {
   const { state } = useLocation();
   const orderInfo = state.order;
   const navigate = useNavigate();
+  console.log(orderInfo)
   // console.log(orderInfo);
 
   const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining());
@@ -201,6 +202,7 @@ const EachOrderDetails = () => {
   let orderIds = localStorage.getItem("allOrders");
   let orderIds0 = orderIds ? JSON.parse(orderIds) : "";
   const [availableOrders, setAvailableOrders] = useState([]);
+
 
   const cancelingOrder = async (orderId) => {
     // Ask the user for confirmation
@@ -281,6 +283,20 @@ const EachOrderDetails = () => {
     isCancelButtonActive = false;
   }
 
+   // es aris konkretulad order statusistvis 
+  let statusStyle1 = { color: "blue" };
+  let statusText = "Order is pending";
+  if (orderInfo?.orderState === 0) {
+    statusStyle1 = { color: "orange" };
+    statusText = "Order is pending";
+  } else if (orderInfo?.orderState === 1) {
+    statusStyle1 = { color: "blue" };
+    statusText = "Order is confirmed";
+  } else if (orderInfo?.orderState === 2) {
+    statusStyle1 = { color: "red" };
+    statusText = "Restaurant denied the order";
+  }
+
   return (
     <OrderDetailsContainer>
       <GoBackDiv
@@ -299,6 +315,10 @@ const EachOrderDetails = () => {
       <OrderTitle>Order Details</OrderTitle>
       <OrderItem>
         <strong>Order ID:</strong> {orderInfo?.id}
+      </OrderItem>
+      <OrderItem>
+        <strong>Order Status:</strong>{" "}
+        <span style={statusStyle1}>{statusText}</span>
       </OrderItem>
       <OrderItem>
         <strong>Order Request Date:</strong>{" "}
