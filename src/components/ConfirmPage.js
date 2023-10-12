@@ -66,12 +66,12 @@ export default function BasketPage() {
     
     
     console.log(
-      createOrderSuccess
+      createOrderSuccess!=-1
         ? "Order created successfully!"
         : "Order creation failed."
     );
     console.log(createOrderSuccess)
-    createOrderSuccess ? navigate("/success") : navigate("/fail");
+    createOrderSuccess!=-1 ? navigate("/success") : navigate("/fail");
   };
 
   function areEqual(array1, array2) {
