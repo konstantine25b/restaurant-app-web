@@ -72,13 +72,6 @@ const TotalPrice = styled.div`
   margin-top: 10px;
 `;
 
-const UserId = styled.div`
-  font-size: 16px;
-  padding: 5px;
-  margin-top: 5px;
-  margin-bottom: 15px;
-`;
-
 const CancelOrderButton = styled.button`
   background-color: #ff0000;
   color: white;
