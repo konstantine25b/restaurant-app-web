@@ -389,8 +389,12 @@ const OrderPage = () => {
               <span style={statusStyle}>{timeFormatted}</span>
             </OrderItem>
             <OrderItem>
-              <TotalPrice>Total Price:</TotalPrice> ₾
-              {order?.totalPrice?.toFixed(2)}
+              <TotalPrice>Total Price: {order?.totalPrice?.toFixed(2)} </TotalPrice> 
+              
+            </OrderItem>
+            <OrderItem>
+              <TotalPrice>Table Number: {order?.orderTable > 0 ? order?.orderTable  : "None"}</TotalPrice> 
+              
             </OrderItem>
             <CancelOrderButton
               onClick={() => {
@@ -475,3 +479,4 @@ const OrderPage = () => {
 };
 
 export default OrderPage;
+
