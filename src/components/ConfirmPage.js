@@ -38,7 +38,9 @@ export default function BasketPage() {
       restaurantId: restaurant.id, // Replace with the desired restaurant ID
       orderRequestedDate: newTime,
       orderItems: orderItems,
+      tableID: tableNumber // aq orderTables magivrad tableID unda eweros
     };
+    
     const createOrderSuccess = await API.createOrder(orderData);
     let ordersArr = localStorage.getItem("allOrders")
 

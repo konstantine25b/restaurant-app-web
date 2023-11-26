@@ -1,3 +1,4 @@
+
 import React from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -101,6 +102,9 @@ const EachOrderDetails = () => {
       <OrderTitle>Order Details</OrderTitle>
       <OrderItem>
         <strong>Order ID:</strong> {orderInfo?.id}
+      </OrderItem>
+      <OrderItem>
+        <strong>Order Number:</strong> {orderInfo?.orderTable> 0 ? orderInfo?.orderTable :"none"}
       </OrderItem>
       <OrderItem>
         <strong>Order Request Date:</strong>{" "}
