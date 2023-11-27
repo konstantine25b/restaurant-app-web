@@ -158,11 +158,10 @@ const OrderPage = () => {
 
   const [orders, setOrders] = useState([]);
 
-
   const [availableOrders, setAvailableOrders] = useState([]);
   const [expiredOrders, setExpiredOrders] = useState([]);
 
-  let avaibleArr=[];
+  let avaibleArr = [];
 
   const cancelingOrder = async (orderId) => {
     // Ask the user for confirmation
@@ -191,16 +190,15 @@ const OrderPage = () => {
           );
           setOrders(updatedOrders);
 
-          
-
           // Filter out the canceled order from orders state
           const updatedAvailableOrders = availableOrders.filter(
             (order) => order && order.id !== orderId
           );
           setAvailableOrders(updatedAvailableOrders);
-          localStorage.setItem("avaibleOrders" ,JSON.stringify(updatedAvailableOrders))
-
-
+          localStorage.setItem(
+            "avaibleOrders",
+            JSON.stringify(updatedAvailableOrders)
+          );
 
           alert("Order canceled successfully!");
         } else {
@@ -225,9 +223,6 @@ const OrderPage = () => {
 
   const [timeRemaining, setTimeRemaining] = useState({});
 
-
-
-
   useEffect(() => {
     const fetchOrders = async () => {
       orderIds0 = orderIds0.reverse();
@@ -248,15 +243,14 @@ const OrderPage = () => {
 
             if (timeDifference > -86400000) {
               // Order is available
-              
+
               setAvailableOrders((prevAvailableOrders) => [
                 ...prevAvailableOrders,
                 order,
-              ])
-              
-              avaibleArr.push(order)
-              localStorage.setItem("avaibleOrders" ,JSON.stringify(avaibleArr))
-             
+              ]);
+
+              avaibleArr.push(order);
+              localStorage.setItem("avaibleOrders", JSON.stringify(avaibleArr));
             } else {
               // Order is expired for more than 1 day
               setExpiredOrders((prevExpiredOrders) => [
@@ -279,8 +273,6 @@ const OrderPage = () => {
       fetchOrders();
     }
   }, []);
-
- 
 
   useEffect(() => {
     // Update timeRemaining every second
@@ -389,12 +381,34 @@ const OrderPage = () => {
               <span style={statusStyle}>{timeFormatted}</span>
             </OrderItem>
             <OrderItem>
-              <TotalPrice>Total Price: {order?.totalPrice?.toFixed(2)} </TotalPrice> 
-              
+                  <TotalPrice>Order Status:</TotalPrice>
+                  <span
+                    style={{
+                      color:
+                        order.orderState === 0
+                          ? "orange"
+                          : order.orderState === 1
+                          ? "blue"
+                          : "red",
+                    }}
+                  >
+                    {order.orderState === 0
+                      ? "Pending"
+                      : order.orderState === 1
+                      ? "Confirmed"
+                      : "Denied"}
+                  </span>
+                </OrderItem>
+            <OrderItem>
+              <TotalPrice>
+                Total Price: {order?.totalPrice?.toFixed(2)}{" "}
+              </TotalPrice>
             </OrderItem>
             <OrderItem>
-              <TotalPrice>Table Number: {order?.orderTable > 0 ? order?.orderTable  : "None"}</TotalPrice> 
-              
+              <TotalPrice>
+                Table Number:{" "}
+                {order?.orderTable > 0 ? order?.orderTable : "None"}
+              </TotalPrice>
             </OrderItem>
             <CancelOrderButton
               onClick={() => {
@@ -455,6 +469,7 @@ const OrderPage = () => {
                   <TotalPrice>Total Price:</TotalPrice> ₾
                   {order?.totalPrice?.toFixed(2)}
                 </OrderItem>
+                
                 <CancelOrderButton
                   onClick={() => {
                     // Expired orders cannot be canceled
@@ -479,4 +494,3 @@ const OrderPage = () => {
 };
 
 export default OrderPage;
-
