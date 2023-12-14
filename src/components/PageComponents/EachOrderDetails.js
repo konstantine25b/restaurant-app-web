@@ -1,8 +1,7 @@
-
 import React from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
-import COLORS from "../Themes/colors";
+import COLORS from "../../Themes/colors";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
 const OrderDetailsContainer = styled.div`
@@ -104,7 +103,8 @@ const EachOrderDetails = () => {
         <strong>Order ID:</strong> {orderInfo?.id}
       </OrderItem>
       <OrderItem>
-        <strong>Order Number:</strong> {orderInfo?.orderTable> 0 ? orderInfo?.orderTable :"none"}
+        <strong>Order Number:</strong>{" "}
+        {orderInfo?.orderTable > 0 ? orderInfo?.orderTable : "none"}
       </OrderItem>
       <OrderItem>
         <strong>Order Request Date:</strong>{" "}
