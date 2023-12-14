@@ -27,11 +27,7 @@ export default function Basket(props) {
       {theme == "dark" ? (
         <MainButton1>
           <div
-            style={{
-              backgroundColor: "#3A1F04",
-
-              
-            }}
+           
           >
             {theme == "dark" ? (
               <ItemsLength1> {items.length}</ItemsLength1>
@@ -54,12 +50,6 @@ export default function Basket(props) {
       ) : (
         <MainButton2>
           <div
-            style={{
-              backgroundColor: "#3A1F04",
-
-             
-             
-            }}
           >
             {theme == "dark" ? (
               <ItemsLength1> {items.length}</ItemsLength1>
@@ -138,7 +128,7 @@ const MainButton2 = styled.div`
   justify-content: space-around;
 `;
 const ItemsLength2 = styled.p`
-  color: white;
+  color: ${COLORS.mainColor};
   font-size: 24px;
   font-weight: 700;
   margin: 0;
