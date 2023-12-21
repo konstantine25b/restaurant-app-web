@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import COLORS from "../Themes/colors";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import EachFoodCard from "./PageComponents/EachFoodCard";
 import Basket from "./Basket";
 import { useSelector } from "react-redux";

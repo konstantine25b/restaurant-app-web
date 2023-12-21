@@ -1,6 +1,6 @@
 import React from "react";
 import { ShoppingCartIcon }from "@heroicons/react/24/solid";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 
 

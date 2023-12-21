@@ -13,7 +13,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/solid";
 import COLORS from "../Themes/colors";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 export default function EachFoodDetailedInfo() {
   const { state } = useLocation();

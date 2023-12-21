@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import COLORS from "../../Themes/colors";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 
 const OrderItem = styled.div`

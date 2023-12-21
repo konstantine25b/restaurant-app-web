@@ -1,6 +1,6 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect,  } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 const SuccessPageContainer = styled.div`
   text-align: center;

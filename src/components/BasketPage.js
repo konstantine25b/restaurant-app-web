@@ -8,7 +8,7 @@ import {
 } from "../features/basketSlice";
 import { selectRestaurant } from "../features/RestaurantSlice";
 import COLORS from "../Themes/colors";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import {
   ArrowLeftIcon,
   MinusCircleIcon,

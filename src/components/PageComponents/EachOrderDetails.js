@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { useLocation, useNavigate } from "react-router-dom";
 import COLORS from "../../Themes/colors";
 import { XMarkIcon } from "@heroicons/react/24/solid";

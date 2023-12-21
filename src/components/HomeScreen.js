@@ -3,7 +3,7 @@ import { getRestaurant } from "../Processing/Database";
 import COLORS from "../Themes/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { setRestaurant } from "../features/RestaurantSlice";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 import { MapPinIcon, StarIcon } from "@heroicons/react/24/solid";
 import FoodCategories from "./PageComponents/FoodCategories";

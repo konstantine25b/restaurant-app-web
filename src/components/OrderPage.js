@@ -141,52 +141,51 @@ const OrderPage = () => {
   // Access orderInfo from state
 
   const [timeRemaining, setTimeRemaining] = useState({});
+  const fetchOrders = async () => {
+    orderIds0 = orderIds0.reverse();
+    for (let i = 0; i < orderIds0.length; i++) {
+      const orderId = orderIds0[i];
+      try {
+        const order = await API.getOrderById(orderId);
+
+        // Calculate time remaining for each order
+        const currentTime = new Date();
+        const requestTime = new Date(order?.orderRequestedDate);
+        const timeDifference = requestTime - currentTime;
+        if (order) {
+          setTimeRemaining((prevTimeRemaining) => ({
+            ...prevTimeRemaining,
+            [order.id]: timeDifference,
+          }));
+
+          if (timeDifference > -86400000) {
+            // Order is available
+
+            setAvailableOrders((prevAvailableOrders) => [
+              ...prevAvailableOrders,
+              order,
+            ]);
+
+            avaibleArr.push(order);
+            localStorage.setItem("avaibleOrders", JSON.stringify(avaibleArr));
+          } else {
+            // Order is expired for more than 1 day
+            setExpiredOrders((prevExpiredOrders) => [
+              ...prevExpiredOrders,
+              order,
+            ]);
+          }
+
+          setOrders((prevOrders) => [...prevOrders, order]);
+        }
+      } catch (error) {
+        // Handle errors here
+        console.error(`Error fetching order with ID ${orderId}:`, error);
+      }
+    }
+  };
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      orderIds0 = orderIds0.reverse();
-      for (let i = 0; i < orderIds0.length; i++) {
-        const orderId = orderIds0[i];
-        try {
-          const order = await API.getOrderById(orderId);
-
-          // Calculate time remaining for each order
-          const currentTime = new Date();
-          const requestTime = new Date(order?.orderRequestedDate);
-          const timeDifference = requestTime - currentTime;
-          if (order) {
-            setTimeRemaining((prevTimeRemaining) => ({
-              ...prevTimeRemaining,
-              [order.id]: timeDifference,
-            }));
-
-            if (timeDifference > -86400000) {
-              // Order is available
-
-              setAvailableOrders((prevAvailableOrders) => [
-                ...prevAvailableOrders,
-                order,
-              ]);
-
-              avaibleArr.push(order);
-              localStorage.setItem("avaibleOrders", JSON.stringify(avaibleArr));
-            } else {
-              // Order is expired for more than 1 day
-              setExpiredOrders((prevExpiredOrders) => [
-                ...prevExpiredOrders,
-                order,
-              ]);
-            }
-
-            setOrders((prevOrders) => [...prevOrders, order]);
-          }
-        } catch (error) {
-          // Handle errors here
-          console.error(`Error fetching order with ID ${orderId}:`, error);
-        }
-      }
-    };
-
     if (dataReturnded === false && orderIds0) {
       dataReturnded = true;
       fetchOrders();

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectBasketItems, selectBasketTotal } from "../features/basketSlice";
 import COLORS from "../Themes/colors";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 export default function Basket(props) {
   const { theme } = props;
