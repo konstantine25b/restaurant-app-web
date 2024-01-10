@@ -4,17 +4,17 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import HomeScreen from "./components/HomeScreen";
+import HomeScreen from "./components/Pages/HomeScreen";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import EachCategoryPage from "./components/EachCategoryPage";
-import EachFoodDetailedInfo from "./components/EachFoodDetailedInfo";
-import BasketPage from "./components/BasketPage";
-import ConfirmPage from "./components/ConfirmPage";
-import SuccessPage from "./components/SuccessPage";
-import FailPage from "./components/FailPage";
-import OrderPage from "./components/OrderPage";
-import EachOrderDetails from "./components/PageComponents/EachOrderDetails";
+import EachCategoryPage from "./components/Pages/SelectingProducts/EachCategoryPage";
+import EachFoodDetailedInfo from "./components/Pages/SelectingProducts/EachFoodDetailedInfo";
+import BasketPage from "./components/Pages/Basket/BasketPage";
+import ConfirmPage from "./components/Pages/Basket/ConfirmPage";
+import SuccessPage from "./components/Pages/Basket/SuccessPage";
+import FailPage from "./components/Pages/Basket/FailPage";
+import OrderPage from "./components/Pages/Order/OrderPage";
+import EachOrderDetails from "./components/Pages/Order/OrderComps/EachOrderDetails";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

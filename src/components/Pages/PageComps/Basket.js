@@ -1,34 +1,32 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectBasketItems, selectBasketTotal } from "../features/basketSlice";
-import COLORS from "../Themes/colors";
+import {
+  selectBasketItems,
+  selectBasketTotal,
+} from "../../../features/basketSlice";
+import COLORS from "../../../Themes/colors";
 import styled from "@emotion/styled";
 
 export default function Basket(props) {
   const { theme } = props;
   const items = useSelector(selectBasketItems);
-  
+
   const basketTotal = useSelector(selectBasketTotal);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    const handleNavigation = ()=>{
-      
-      navigate('/basket')
-     }
+  const handleNavigation = () => {
+    navigate("/basket");
+  };
 
   return (
     // onClick ={()=>{navigation.navigate("BasketPage")}}
 
-    
-
     <MainDiv onClick={handleNavigation}>
       {theme == "dark" ? (
         <MainButton1>
-          <div
-           
-          >
+          <div>
             {theme == "dark" ? (
               <ItemsLength1> {items.length}</ItemsLength1>
             ) : (
@@ -49,8 +47,7 @@ export default function Basket(props) {
         </MainButton1>
       ) : (
         <MainButton2>
-          <div
-          >
+          <div>
             {theme == "dark" ? (
               <ItemsLength1> {items.length}</ItemsLength1>
             ) : (
@@ -74,9 +71,7 @@ export default function Basket(props) {
   );
 }
 
-const MainDiv = styled.div`
-
-`
+const MainDiv = styled.div``;
 
 const MainButton1 = styled.div`
   position: fixed;

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { useLocation, useNavigate } from "react-router-dom";
-import COLORS from "../../Themes/colors";
+import COLORS from "../../../../Themes/colors";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
 const OrderDetailsContainer = styled.div`

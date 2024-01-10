@@ -1,18 +1,17 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import COLORS from "../Themes/colors";
+import COLORS from "../../../Themes/colors";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import styled from "@emotion/styled";
-import EachFoodCard from "./PageComponents/EachFoodCard";
-import Basket from "./Basket";
+import EachFoodCard from "./SelectingPageComps/EachFoodCard";
+import Basket from "../PageComps/Basket";
 import { useSelector } from "react-redux";
-import { selectBasketItems } from "../features/basketSlice";
+import { selectBasketItems } from "../../../features/basketSlice";
 
 function EachCategoryPage() {
   const { state } = useLocation();
   const { dishes, categorieTitle } = state;
   // console.log(dishes , categorieTitle)
-  
 
   const navigate = useNavigate();
   const items = useSelector((state) => selectBasketItems(state));
@@ -38,7 +37,9 @@ function EachCategoryPage() {
         </HeaderDiv>
         <EachFoodMainDiv>
           {dishes.map((dish) => {
-            return dish?.available ? <EachFoodCard key={dish.title} dish={dish} />: null;// aq ! nishani unda movashoro imitoro avaibility dasamatebelia
+            return dish?.available ? (
+              <EachFoodCard key={dish.title} dish={dish} />
+            ) : null; // aq ! nishani unda movashoro imitoro avaibility dasamatebelia
           })}
         </EachFoodMainDiv>
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { API } from "../Processing/PrestoAPI";
+import { API } from "../../../Processing/PrestoAPI";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import COLORS from "../Themes/colors";
-import EachAvailableOrderContainer from "./PageComponents/EachAvailableOrderContainer";
-import EachExpiredOrderContainer from "./PageComponents/EachExpiredOrderContainer";
+import COLORS from "../../../Themes/colors";
+import EachAvailableOrderContainer from "./OrderComps/EachAvailableOrderContainer";
+import EachExpiredOrderContainer from "./OrderComps/EachExpiredOrderContainer";
 
 const OrderDetailsContainer = styled.div`
   display: flex;

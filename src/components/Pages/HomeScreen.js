@@ -1,14 +1,14 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import COLORS from "../Themes/colors";
+import COLORS from "../../Themes/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { setRestaurant } from "../features/RestaurantSlice";
+import { setRestaurant } from "../../features/RestaurantSlice";
 import styled from "@emotion/styled";
 import { MapPinIcon, StarIcon } from "@heroicons/react/24/solid";
-import FoodCategories from "./PageComponents/FoodCategories";
-import Basket from "./Basket";
-import { selectBasketItems } from "../features/basketSlice";
-import { API } from "../Processing/PrestoAPI";
-import OrderNotification from "./PageComponents/OrderedItems";
+import FoodCategories from "./HomeScreenComps/FoodCategories";
+import Basket from "./PageComps/Basket";
+import { selectBasketItems } from "../../features/basketSlice";
+import { API } from "../../Processing/PrestoAPI";
+import OrderNotification from "./HomeScreenComps/OrderedItems";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();

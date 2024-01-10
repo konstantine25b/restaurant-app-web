@@ -5,38 +5,22 @@ import {
   addToBasket,
   removeFromBasketWithIngredients,
   selectBasketItemsWithIdAndIngredients,
-} from "../features/basketSlice";
+} from "../../../features/basketSlice";
 import {
   CheckIcon,
   MinusCircleIcon,
   PlusCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
-import COLORS from "../Themes/colors";
+import COLORS from "../../../Themes/colors";
 import styled from "@emotion/styled";
 
 export default function EachFoodDetailedInfo() {
   const { state } = useLocation();
   const { dishes } = state;
 
- 
   const [offset, setOffset] = useState(window.pageYOffset);
   const [showdiv, setShowdiv] = useState(false);
-
-//   const handleScroll = () => {
-//     // amit vaketeb imas ro garkveul zomaze gamochndes div romelsac ukan daburunebis funqcia eqneba
-//     const currentOffset = window.pageYOffset;
-
-
-//     if (currentOffset > 100 && !showdiv) {
-//       setShowdiv(true);
-//     } else if (currentOffset <= 100 && showdiv) {
-//       setShowdiv(false);
-//     }
-//     setScrollOffset(currentOffset);
-//     console.log(234)
-//   };
- 
 
   const navigate = useNavigate();
 
@@ -86,21 +70,18 @@ export default function EachFoodDetailedInfo() {
   useEffect(() => {
     function handleScroll() {
       setOffset(window.pageYOffset);
-      
-      
     }
-        if (offset> 100 && !showdiv) {
+    if (offset > 100 && !showdiv) {
       setShowdiv(true);
     } else if (offset <= 100 && showdiv) {
       setShowdiv(false);
     }
-    
+
     setOffset(offset);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
-    
   }, [window.pageYOffset]);
 
   return (
@@ -137,7 +118,7 @@ export default function EachFoodDetailedInfo() {
           </NavGoBack>
         </NavBar>
       )}
-      <InnerMainDiv >
+      <InnerMainDiv>
         <UpperSide>
           <ImageDiv>
             <MainImage src={FoodImage} />
@@ -170,16 +151,11 @@ export default function EachFoodDetailedInfo() {
                   <EachIngr key={index}>
                     <EachIngInside
                       onClick={() => {
-                        
-                        
-                        
                         if (isCheckedIngr[index] == true) {
-                           
                           setUnCheckedIngredients([
                             ...unCheckedIngredients,
                             ingredient,
                           ]);
-                          
                         } else {
                           const removeIndex = unCheckedIngredients.findIndex(
                             (item) => item == ingredient
@@ -193,7 +169,6 @@ export default function EachFoodDetailedInfo() {
                         let newisCheckedIngr = isCheckedIngr;
                         newisCheckedIngr[index] = !newisCheckedIngr[index];
                         setIsCheckedIngr(newisCheckedIngr);
-                       
 
                         // console.log(unCheckedIngredients)
                       }}
@@ -298,7 +273,7 @@ const NavBar = styled.div`
   background-color: ${COLORS.mainColor};
   width: 100%;
   height: 60px;
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -313,7 +288,8 @@ const NavbarP = styled.p`
 `;
 
 const NavGoBack = styled.div`
-padding-right: 10px;`;
+  padding-right: 10px;
+`;
 
 const InnerMainDiv = styled.div``;
 const UpperSide = styled.div``;

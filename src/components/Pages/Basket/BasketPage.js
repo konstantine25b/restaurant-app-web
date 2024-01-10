@@ -5,9 +5,8 @@ import {
   removeFromBasketWithIngredients,
   selectBasketItems,
   selectBasketTotal,
-} from "../features/basketSlice";
-import { selectRestaurant } from "../features/RestaurantSlice";
-import COLORS from "../Themes/colors";
+} from "../../../features/basketSlice";
+import COLORS from "../../../Themes/colors";
 import styled from "@emotion/styled";
 import {
   ArrowLeftIcon,
@@ -16,64 +15,21 @@ import {
 } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 
-import { API } from "../Processing/PrestoAPI";
-
 export default function BasketPage() {
   const restaurant = JSON.parse(localStorage.getItem("restInfo"));
+
   const items = useSelector(selectBasketItems);
   const BasketTotal = useSelector(selectBasketTotal);
   const [newGroupedItemsInBasket, setNewGroupedItemsInBasket] = useState([]);
-  const [orderItems, setOrderItems] = useState([]);
-  
-
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  //es dros sazgvravs plius 10 wams umatebs orderis micemis funqciistvis
 
-  const handleCreateOrder = async () => {
-    const newTime = new Date();
-    newTime.setMinutes(newTime.getMinutes() + 45);
+  const handleNavigation = () => {
+    navigate("/confirm");
+  };
 
-    const orderData = {
-      restaurantId: restaurant.id, // Replace with the desired restaurant ID
-      orderRequestedDate: newTime,
-      orderItems: orderItems,
-      tableID: tableNumber // aq orderTables magivrad tableID unda eweros
-    };
-    
-    const createOrderSuccess = await API.createOrder(orderData);
-    let ordersArr = localStorage.getItem("allOrders")
-
-    if(createOrderSuccess!=-1){
-      if(ordersArr){
-        
-        let Arr = JSON.parse(ordersArr)
-        // console.log(Arr)
-        Arr.push(createOrderSuccess.orderId)
-        // console.log(Arr)
-        localStorage.setItem("allOrders" , JSON.stringify(Arr))
-      
-      }
-      else{
-        let OrderId = createOrderSuccess.orderId //es prosta stringifys gareshe ar gamodis
-        let arr = []
-        arr.push(OrderId)
-        localStorage.setItem("allOrders" , JSON.stringify(arr))
-      }
-
-    }
-    else{
-      console.log("order failed!")
-    }
-    
-    
-    console.log(
-      createOrderSuccess
-        ? "Order created successfully!"
-        : "Order creation failed."
-    );
-    console.log(createOrderSuccess)
-    createOrderSuccess ? navigate("/success") : navigate("/fail");
+  const removeItemFromBasket = (Id, unCheckedIngredients) => {
+    dispatch(removeFromBasketWithIngredients({ Id, unCheckedIngredients }));
   };
 
   function areEqual(array1, array2) {
@@ -91,8 +47,7 @@ export default function BasketPage() {
   }
 
   useEffect(() => {
-    // console.log(items);
-    // console.log(restaurant);
+    console.log(restaurant);
     let differnetItemsArr = [];
     for (let i = 0; i < items.length; i++) {
       if (i == 0) {
@@ -123,58 +78,6 @@ export default function BasketPage() {
     // console.log(newGroupedItemsInBasket);
   }, [items.length]);
 
-  useEffect(() => {
-    let arr = [];
-    // console.log(items);
-    for (let i = 0; i < items.length; i++) {
-      let eachItem = items[i];
-      if (eachItem.unCheckedIngredients.length != 0) {
-        let notes1 = "Without: ";
-        for (let j = 0; j < eachItem.unCheckedIngredients.length - 1; j++) {
-          notes1 = notes1 + eachItem.unCheckedIngredients[j] + ", ";
-        }
-        notes1 =
-          notes1 +
-          eachItem.unCheckedIngredients[
-            eachItem.unCheckedIngredients.length - 1
-          ];
-        arr.push({
-          dishId: eachItem.Id,
-          notes: notes1,
-        });
-      } else {
-        arr.push({
-          dishId: eachItem.Id,
-          notes: "",
-        });
-      }
-    }
-    setOrderItems(arr);
-  }, [items]);
-  // console.log(orderItems);
-
-  const [tableNumber, setTableNumber] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
-  const [tableNumberError, setTableNumberError] = useState("");
-  const [paymentMethodError, setPaymentMethodError] = useState("");
-
-  const handleSubmit = () => {
-    setTableNumberError(tableNumber ? "" : "Table Number is required");
-    setPaymentMethodError(paymentMethod ? "" : "Payment Method is required");
-
-    if (tableNumber && paymentMethod) {
-      console.log(
-        `Table Number: ${tableNumber}, Payment Method: ${paymentMethod}`
-      );
-      handleCreateOrder()
-      setInterval(() => {
-        window.location.reload(); // Reloads the page every second
-      }, 1500);
-
-    }
-  };
-
-
   return (
     <MainDiv>
       <ContinueDiv>
@@ -194,22 +97,14 @@ export default function BasketPage() {
           <ContinueInside
           // onClick = {()=>navigation.navigate("ConfirmPage")}
           >
-            <ContinueP
-              onClick={() => {
-                
-                handleSubmit();
-                
-              }}
-            >
-              Confirm Order
-            </ContinueP>
+            <ContinueP onClick={handleNavigation}>Go to Payment</ContinueP>
           </ContinueInside>
         </ContinueDivMain>
       </ContinueDiv>
       <MainInsideDiv>
         <UpperSide>
           <UpperSideTop>
-            <UpperSideTopP1>Order Now</UpperSideTopP1>
+            <UpperSideTopP1>Basket items</UpperSideTopP1>
             <UpperSideTopP2>{restaurant.title}</UpperSideTopP2>
           </UpperSideTop>
           <GoBackDiv
@@ -226,41 +121,83 @@ export default function BasketPage() {
             />
           </GoBackDiv>
         </UpperSide>
-        <LowerSide>
-          <Container>
-            <Label>
-              Table Number:
-              <RequiredMessage>*</RequiredMessage>
-            </Label>
-            <InputContainer>
-              <TableNumberInput
-                type="number"
-                placeholder="Enter Table Number"
-                value={tableNumber}
-                onChange={(e) => setTableNumber(e.target.value)}
-                required
-              />
-            </InputContainer>
-            {tableNumberError && <ErrorText>{tableNumberError}</ErrorText>}
-            <Label>
-              Select Payment Method:
-              <RequiredMessage>*</RequiredMessage>
-            </Label>
-            <PaymentMethodSelect
-              value={paymentMethod}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-              required
-            >
-              <PaymentOption value="" disabled>
-                Select a payment method
-              </PaymentOption>
-              <PaymentOption value="credit">Credit Card</PaymentOption>
-              <PaymentOption value="cash">Cash</PaymentOption>
 
-              {/* Add more payment options if needed */}
-            </PaymentMethodSelect>
-            {paymentMethodError && <ErrorText>{paymentMethodError}</ErrorText>}
-          </Container>
+        <LowerSide>
+          {newGroupedItemsInBasket.map((items, index) => {
+            // console.log(items)
+            return (
+              <EachItem key={index}>
+                <EachItemInfo>
+                  <EachItemInfoInside>
+                    <EachItemInfoInsideP1>{items[1]} x</EachItemInfoInsideP1>
+                    <EachItemImage src={items[0]?.FoodImage} />
+                    <EachItemInfoInsideDiv>
+                      <EachItemInfoInsideDivP1>
+                        {items[0]?.Title}
+                      </EachItemInfoInsideDivP1>
+                      <EachItemInfoInsideDivP2>
+                        {items[0]?.unCheckedIngredients?.map((items, index) => {
+                          return index == 0
+                            ? "Without: " + items
+                            : " , " + items;
+                        })}
+                      </EachItemInfoInsideDivP2>
+                    </EachItemInfoInsideDiv>
+                  </EachItemInfoInside>
+
+                  <EachItemPriceP>{items[0]?.Price} ₾</EachItemPriceP>
+                </EachItemInfo>
+                <EachItemInfoBottom>
+                  <RemoveDiv
+                    onClick={() => {
+                      removeItemFromBasket(
+                        items[0].Id,
+                        items[0].unCheckedIngredients
+                      );
+                    }}
+                  >
+                    <RemoveP>Remove</RemoveP>
+                    <MinusCircleIcon
+                      color={items.length > 0 ? COLORS.mainColor : "gray"}
+                      style={{
+                        marginRight: 10,
+                        width: 40,
+                        height: 40,
+                      }}
+                    />
+                  </RemoveDiv>
+                  <AddDiv
+                    onClick={() => {
+                      console.log(items[0]?.FoodImage);
+                      dispatch(
+                        addToBasket({
+                          Id: items[0]?.Title,
+                          ApproxTime: items[0]?.ApproxTime,
+                          FoodImage: items[0]?.FoodImage,
+                          Title: items[0]?.Title,
+                          Description: items[0]?.Description,
+                          Price: items[0]?.Price,
+                          unCheckedIngredients:
+                            newGroupedItemsInBasket[index][0]
+                              ?.unCheckedIngredients,
+                        })
+                      );
+                    }}
+                  >
+                    <AddP>Add</AddP>
+                    <PlusCircleIcon
+                      color={items.length > 0 ? COLORS.mainColor : "gray"}
+                      style={{
+                        marginRight: 10,
+                        width: 40,
+                        height: 40,
+                      }}
+                    />
+                  </AddDiv>
+                </EachItemInfoBottom>
+              </EachItem>
+            );
+          })}
         </LowerSide>
       </MainInsideDiv>
     </MainDiv>
@@ -425,58 +362,81 @@ const LowerSide = styled.div`
   padding-bottom: 400px;
   padding-top: 90px;
 `;
-const Container = styled.div`
+
+const EachItem = styled.div`
+  background-color: white;
+  margin-top: 10px;
+`;
+const EachItemInfo = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+
+  width: 96%;
+  margin-left: 2%;
+  justify-content: space-between;
+`;
+
+const EachItemInfoInside = styled.div`
+  display: flex;
+  flex-direction: row;
   align-items: center;
 `;
 
-const Label = styled.label`
-  font-size: 20px;
-  margin-bottom: 10px;
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const RequiredMessage = styled.span`
-  color: red;
-  margin-left: 5px;
-`;
-
-const TableNumberInput = styled.input`
-  padding: 12px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  font-size: 18px;
-  outline: none;
-  width: 100%;
-  max-width: 300px;
-  margin-right: 0;
-`;
-
-const PaymentMethodSelect = styled.select`
-  padding: 12px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  font-size: 18px;
-  outline: none;
-  width: 100%;
-  max-width: 300px;
-`;
-
-const PaymentOption = styled.option`
-  font-size: 18px;
-  background-color: #fff;
-  color: #333;
-  border-radius: 5px;
-`;
-
-const ErrorText = styled.div`
-  color: red;
+const EachItemInfoInsideP1 = styled.p`
   font-size: 14px;
-  margin-top: 5px;
+  font-weight: 500;
 `;
+
+const EachItemImage = styled.img`
+  margin-left: 5px;
+  width: 80px;
+  height: 80px;
+`;
+
+const EachItemInfoInsideDiv = styled.div`
+  display: flex;
+  width: 60%;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+`;
+
+const EachItemInfoInsideDivP1 = styled.p`
+  margin-left: 7px;
+  font-size: 17px;
+  font-weight: 500;
+  padding-bottom: 5px;
+`;
+
+const EachItemInfoInsideDivP2 = styled.p`
+  font-size: 13px;
+  color: gray;
+  font-weight: 500;
+  margin-left: 2%;
+`;
+
+const EachItemPriceP = styled.p``;
+
+const EachItemInfoBottom = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 96%;
+  margin-left: 2%;
+  justify-content: space-between;
+`;
+const RemoveDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const RemoveP = styled.p``;
+
+const AddDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+const AddP = styled.p``;

@@ -1,32 +1,25 @@
 import React from "react";
 import styled from "@emotion/styled";
-import COLORS from "../../Themes/colors";
+import COLORS from "../../../Themes/colors";
 import { useNavigate } from "react-router-dom";
 
-
-
 export default function FoodCategories(props) {
-  const { categories} = props;
+  const { categories } = props;
 
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    const handleNavigation = ()=>{
-      
-      navigate('/categories' , {
-        state:{
-          categorieTitle: categories.title,
-          dishes: categories.dishes,
-          
-        }
-        
-      })
-     }
-
-    
+  const handleNavigation = () => {
+    navigate("/categories", {
+      state: {
+        categorieTitle: categories.title,
+        dishes: categories.dishes,
+      },
+    });
+  };
 
   return (
     <StyledButton // aris patar divi razec restornis titoeul kategoriasd vantavsebt
-    onClick={handleNavigation}
+      onClick={handleNavigation}
     >
       <P>{categories.title}</P>
       <Image src={categories.image} />
@@ -35,7 +28,7 @@ export default function FoodCategories(props) {
 }
 
 const StyledButton = styled.button`
-all: unset;
+  all: unset;
   margin-top: 15px;
   width: 94%;
   display: flex;
@@ -47,7 +40,6 @@ all: unset;
   margin-left: 3%;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  
 `;
 const P = styled.p`
   color: white;
@@ -59,6 +51,4 @@ const Image = styled.img`
   height: 100px;
   border-radius: 10px;
   object-fit: cover;
-
-  
 `;

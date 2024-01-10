@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import COLORS from "../../Themes/colors";
+import COLORS from "../../../../Themes/colors";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 
@@ -80,12 +80,13 @@ const formatTime = (time) => {
   return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 };
 
-export default function EachAvailableOrderContainer({order,cancelingOrder,timeRemaining} ) {
-
-
+export default function EachAvailableOrderContainer({
+  order,
+  cancelingOrder,
+  timeRemaining,
+}) {
   const navigate = useNavigate();
 
-  
   if (!order) {
     // Skip null or undefined orders
     return null;

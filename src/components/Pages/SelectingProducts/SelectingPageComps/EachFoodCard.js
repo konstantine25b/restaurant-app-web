@@ -5,9 +5,9 @@ import {
   addToBasket,
   removeFromBasketWithIngredients,
   selectBasketItemsWithId,
-} from "../../features/basketSlice";
+} from "../../../../features/basketSlice";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
-import COLORS from "../../Themes/colors";
+import COLORS from "../../../../Themes/colors";
 import { useNavigate } from "react-router-dom";
 
 export default function EachFoodCard({ dish }) {
@@ -126,7 +126,6 @@ export default function EachFoodCard({ dish }) {
 
       {isPressed &&
         sameIngredients.map((item, index) => {
-          
           return (
             <BottomMain key={index}>
               <UpperBottomMain>
@@ -147,7 +146,6 @@ export default function EachFoodCard({ dish }) {
                   onClick={() => {
                     removeItemFromBasket(item[0].unCheckedIngredients);
                   }}
-                  
                 >
                   <MinusCircleIcon
                     style={{
@@ -155,26 +153,22 @@ export default function EachFoodCard({ dish }) {
                       height: 30,
                     }}
                     color={item[1] > 0 ? COLORS.mainColor : "gray"}
-                    
                   />
-                  <LowerBottomMainTopP >Remove</LowerBottomMainTopP>
+                  <LowerBottomMainTopP>Remove</LowerBottomMainTopP>
                 </LowerBottomMainTop>
 
                 <LowerBottomMainBottom
                   onClick={() => {
                     addItemToBasket(index);
                   }}
-                  
-                  
                 >
-                  <LowerBottomMainBottomP >Add</LowerBottomMainBottomP>
+                  <LowerBottomMainBottomP>Add</LowerBottomMainBottomP>
                   <PlusCircleIcon
                     style={{
                       width: 30,
                       height: 30,
                     }}
                     color={COLORS.mainColor}
-                   
                   />
                 </LowerBottomMainBottom>
               </LowerBottomMain>
@@ -312,20 +306,18 @@ const LowerBottomMain = styled.div`
   justify-content: space-between;
 `;
 const LowerBottomMainTop = styled.div`
-display: flex;
- flex-direction: row;
-                    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 const LowerBottomMainTopP = styled.p`
- font-size: 12px;
+  font-size: 12px;
 `;
 const LowerBottomMainBottom = styled.div`
-display: flex;
- flex-direction: row;
-                    align-items: center;
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 const LowerBottomMainBottomP = styled.p`
- font-size: 13px;
+  font-size: 13px;
 `;
-
