@@ -1,10 +1,8 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { getRestaurant } from "../Processing/Database";
 import COLORS from "../Themes/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { setRestaurant } from "../features/RestaurantSlice";
 import styled from "@emotion/styled";
-
 import { MapPinIcon, StarIcon } from "@heroicons/react/24/solid";
 import FoodCategories from "./PageComponents/FoodCategories";
 import Basket from "./Basket";
@@ -14,12 +12,9 @@ import OrderNotification from "./PageComponents/OrderedItems";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
-
-  // const [restInfo, setrestInfo] = useState([]); // amashi iqneba romel restoransac gamovidzaxebt is
-
   const [restInfo, setRestInfo] = useState();
-  const ID = "McDonald's";
   const NAME = "KFC";
+
   useLayoutEffect(() => {
     const gettingRestaurantsInfo = async () => {
       // am metodit mogvaqvs yvela restorani  da vsetavt mas reduxshi
@@ -65,14 +60,16 @@ export default function HomeScreen() {
     console.log(prevOrder1);
   }
   if (avaibleOrders) {
-    avaibleOrders0= JSON.parse(avaibleOrders)
+    avaibleOrders0 = JSON.parse(avaibleOrders);
     console.log(avaibleOrders0);
   }
 
   return (
     <MainDiv>
       {prevOrder ? (
-        <OrderNotification orderCount={avaibleOrders0.length}></OrderNotification>
+        <OrderNotification
+          orderCount={avaibleOrders0.length}
+        ></OrderNotification>
       ) : null}
       {items.length > 0 ? <Basket theme={"light"} /> : null}
       <ImageDiv>

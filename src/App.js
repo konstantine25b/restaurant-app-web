@@ -7,7 +7,6 @@ import {
 import HomeScreen from "./components/HomeScreen";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import "./App.css";
 import EachCategoryPage from "./components/EachCategoryPage";
 import EachFoodDetailedInfo from "./components/EachFoodDetailedInfo";
 import BasketPage from "./components/BasketPage";
