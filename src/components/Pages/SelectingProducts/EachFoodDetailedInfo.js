@@ -19,7 +19,7 @@ export default function EachFoodDetailedInfo() {
   const { state } = useLocation();
   const { dishes } = state;
 
-  const [offset, setOffset] = useState(window.pageYOffset);
+  const [offset, setOffset] = useState(window.scrollY);
   const [showdiv, setShowdiv] = useState(false);
 
   const navigate = useNavigate();
@@ -69,7 +69,7 @@ export default function EachFoodDetailedInfo() {
 
   useEffect(() => {
     function handleScroll() {
-      setOffset(window.pageYOffset);
+      setOffset(window.scrollY);
     }
     if (offset > 100 && !showdiv) {
       setShowdiv(true);
@@ -82,7 +82,7 @@ export default function EachFoodDetailedInfo() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [window.pageYOffset]);
+  }, [window.scrollY]);
 
   return (
     <MainDiv>

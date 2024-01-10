@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { API } from "../../../Processing/PrestoAPI";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import COLORS from "../../../Themes/colors";

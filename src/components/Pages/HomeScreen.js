@@ -17,8 +17,6 @@ export default function HomeScreen() {
 
   useLayoutEffect(() => {
     const gettingRestaurantsInfo = async () => {
-      // am metodit mogvaqvs yvela restorani  da vsetavt mas reduxshi
-      // setRestInfo(await getRestaurant(ID));
       await handleGetRestaurantByTitle(NAME);
     };
     gettingRestaurantsInfo();

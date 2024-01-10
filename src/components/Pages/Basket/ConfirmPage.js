@@ -4,14 +4,9 @@ import {
   selectBasketItems,
   selectBasketTotal,
 } from "../../../features/basketSlice";
-import { selectRestaurant } from "../../../features/RestaurantSlice";
 import COLORS from "../../../Themes/colors";
 import styled from "@emotion/styled";
-import {
-  ArrowLeftIcon,
-  MinusCircleIcon,
-  PlusCircleIcon,
-} from "@heroicons/react/24/solid";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 
 import { API } from "../../../Processing/PrestoAPI";
@@ -20,7 +15,6 @@ export default function BasketPage() {
   const restaurant = JSON.parse(localStorage.getItem("restInfo"));
   const items = useSelector(selectBasketItems);
   const BasketTotal = useSelector(selectBasketTotal);
-  const [newGroupedItemsInBasket, setNewGroupedItemsInBasket] = useState([]);
   const [orderItems, setOrderItems] = useState([]);
 
   const navigate = useNavigate();
@@ -79,39 +73,6 @@ export default function BasketPage() {
 
     return false;
   }
-
-  useEffect(() => {
-    // console.log(items);
-    // console.log(restaurant);
-    let differnetItemsArr = [];
-    for (let i = 0; i < items.length; i++) {
-      if (i == 0) {
-        differnetItemsArr.push([items[0], 1]);
-      }
-
-      if (i > 0) {
-        let isAlreadyIn = false;
-        for (let j = 0; j < differnetItemsArr.length; j++) {
-          if (
-            areEqual(
-              items[i].unCheckedIngredients,
-              differnetItemsArr[j][0].unCheckedIngredients
-            ) &&
-            differnetItemsArr[j][0].Title == items[i].Title
-          ) {
-            differnetItemsArr[j][1]++;
-            isAlreadyIn = true;
-            break;
-          }
-        }
-        if (isAlreadyIn == false) {
-          differnetItemsArr.push([items[i], 1]);
-        }
-      }
-    }
-    setNewGroupedItemsInBasket(differnetItemsArr);
-    // console.log(newGroupedItemsInBasket);
-  }, [items.length]);
 
   useEffect(() => {
     let arr = [];

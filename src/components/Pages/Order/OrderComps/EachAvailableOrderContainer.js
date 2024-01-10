@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import COLORS from "../../../../Themes/colors";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";

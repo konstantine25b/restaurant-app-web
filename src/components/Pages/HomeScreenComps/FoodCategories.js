@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function FoodCategories(props) {
   const { categories } = props;
-
   const navigate = useNavigate();
 
   const handleNavigation = () => {

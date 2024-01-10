@@ -11,8 +11,6 @@ import { selectBasketItems } from "../../../features/basketSlice";
 function EachCategoryPage() {
   const { state } = useLocation();
   const { dishes, categorieTitle } = state;
-  // console.log(dishes , categorieTitle)
-
   const navigate = useNavigate();
   const items = useSelector((state) => selectBasketItems(state));
 
@@ -42,13 +40,6 @@ function EachCategoryPage() {
             ) : null; // aq ! nishani unda movashoro imitoro avaibility dasamatebelia
           })}
         </EachFoodMainDiv>
-
-        {/* <FlatList // amit chven vawyobt bevr titoeul foodze divs
-          data={dishes}
-          contentContainerStyle={{ paddingBottom: 350 }}
-          renderItem={({ item }) => <EachFoodCard dishes={item} />}
-          keyExtractor={(item) => item.Title}
-        /> */}
       </MainDiv>
       {items.length > 0 ? <Basket theme={"dark"} /> : null}
     </>
