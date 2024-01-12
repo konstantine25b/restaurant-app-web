@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect } from "react";
 import COLORS from "../../Themes/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { setRestaurant } from "../../features/RestaurantSlice";
@@ -9,28 +9,34 @@ import Basket from "./PageComps/Basket";
 import { selectBasketItems } from "../../features/basketSlice";
 import { API } from "../../Processing/PrestoAPI";
 import OrderNotification from "./HomeScreenComps/OrderedItems";
+import { useQuery } from "react-query";
 
+const handleGetRestaurantByTitle = async (restaurantTitle) => {
+  const restaurantByTitle = await API.getRestaurantByTitle(restaurantTitle);
+  return JSON.parse(JSON.stringify(restaurantByTitle));
+};
 export default function HomeScreen() {
   const dispatch = useDispatch();
-  const [restInfo, setRestInfo] = useState();
   const NAME = "KFC";
 
-  useLayoutEffect(() => {
-    const gettingRestaurantsInfo = async () => {
-      await handleGetRestaurantByTitle(NAME);
-    };
-    gettingRestaurantsInfo();
-  }, []);
+  const {
+    data: restInfo,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery(["restInfo", NAME], () => handleGetRestaurantByTitle(NAME), {
+    keepPreviousData: true,
+    staleTime: 1000 * 5, // 5 secs
+    // Handle error
+    onError: (error) => {
+      console.error("Error fetching confirmed orders:", error);
+    },
+  });
 
   useEffect(() => {
-    console.log(restInfo);
     localStorage.setItem("restInfo", JSON.stringify(restInfo));
   }, [restInfo]);
 
-  const handleGetRestaurantByTitle = async (restaurantTitle) => {
-    const restaurantByTitle = await API.getRestaurantByTitle(restaurantTitle);
-    setRestInfo(JSON.parse(JSON.stringify(restaurantByTitle)));
-  };
   const items = useSelector((state) => selectBasketItems(state));
   useEffect(() => {
     dispatch(
@@ -64,6 +70,8 @@ export default function HomeScreen() {
 
   return (
     <MainDiv>
+      {isLoading && <p>Loading...</p>}
+      {isError && <p>Error fetching data</p>}
       {prevOrder ? (
         <OrderNotification
           orderCount={avaibleOrders0.length}

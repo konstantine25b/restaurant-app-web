@@ -15,6 +15,9 @@ import SuccessPage from "./components/Pages/Basket/SuccessPage";
 import FailPage from "./components/Pages/Basket/FailPage";
 import OrderPage from "./components/Pages/Order/OrderPage";
 import EachOrderDetails from "./components/Pages/Order/OrderComps/EachOrderDetails";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,9 +41,11 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </QueryClientProvider>
   );
 }
 

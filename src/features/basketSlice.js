@@ -123,16 +123,6 @@ export const selectBasketItemsWithIdAndIngredients = (
   });
 
 export const selectBasketTotal = (state) => {
-  // console.log(state.basket.items)
-
-  // return state.basket.items.reduce(
-  //   (total, item) => {
-  //     total += item.Price;
-  //     let basketTotal = parseFloat(total.toFixed(2));
-  //     return basketTotal;
-  //   },
-
-  // );
   let total = 0;
   for (let i = 0; i < state.basket.items.length; i++) {
     total += Number(state.basket.items[i].Price);
