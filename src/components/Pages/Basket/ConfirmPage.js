@@ -8,7 +8,6 @@ import COLORS from "../../../Themes/colors";
 import styled from "@emotion/styled";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
-
 import { API } from "../../../Processing/PrestoAPI";
 
 export default function BasketPage() {
@@ -16,9 +15,7 @@ export default function BasketPage() {
   const items = useSelector(selectBasketItems);
   const BasketTotal = useSelector(selectBasketTotal);
   const [orderItems, setOrderItems] = useState([]);
-
   const navigate = useNavigate();
-  //es dros sazgvravs plius 10 wams umatebs orderis micemis funqciistvis
 
   const handleCreateOrder = async () => {
     const newTime = new Date();
@@ -59,20 +56,6 @@ export default function BasketPage() {
     console.log(createOrderSuccess);
     createOrderSuccess ? navigate("/success") : navigate("/fail");
   };
-
-  function areEqual(array1, array2) {
-    if (array1.length === array2.length) {
-      return array1.every((element, index) => {
-        if (element === array2[index]) {
-          return true;
-        }
-
-        return false;
-      });
-    }
-
-    return false;
-  }
 
   useEffect(() => {
     let arr = [];

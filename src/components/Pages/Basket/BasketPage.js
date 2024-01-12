@@ -75,7 +75,6 @@ export default function BasketPage() {
       }
     }
     setNewGroupedItemsInBasket(differnetItemsArr);
-    // console.log(newGroupedItemsInBasket);
   }, [items.length]);
 
   return (
