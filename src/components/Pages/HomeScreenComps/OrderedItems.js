@@ -1,8 +1,7 @@
 import React from "react";
-import { ShoppingCartIcon }from "@heroicons/react/24/solid";
+import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-
 
 const ShoppingCartButton = styled.button`
   position: fixed;
@@ -31,13 +30,14 @@ const OrderCount = styled.span`
 `;
 
 const OrderNotification = ({ orderCount }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
-    <ShoppingCartButton  onClick={() => {
-          
+    <ShoppingCartButton
+      onClick={() => {
         // Navigate to the page where the user can see their order
         navigate("/OrderPage");
-      }}>
+      }}
+    >
       <ShoppingCartIcon width="24" height="24" />
       You have <OrderCount>{orderCount}</OrderCount> orders
     </ShoppingCartButton>
